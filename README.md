@@ -24,4 +24,5 @@ npm install
 5) Go to (https://discord.com/developers/) to obtain your API token and further bot setup instructions
 6) Add the bot to a server
 7) Compile! 
-8) In your discord server send the command `!hi` and the bot should reply :)
+8) Run the bot using node: `node main.js` or hit the debug button in vscode
+9) In your discord server send the command `!hi` and the bot should reply :)
