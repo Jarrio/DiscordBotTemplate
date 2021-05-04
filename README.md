@@ -1,7 +1,7 @@
 # Discord Bot Template
-A basic and probably over engineered approach to creating a discord bot in haxe. This project utilises aidan's ECS which can be found at(https://github.com/Aidan63/ecs).
+A basic and probably over engineered approach to creating a discord bot in haxe. This project utilises aidan's ECS which can be found at https://github.com/Aidan63/ecs.
 This comes with the discord externs, the externs were created with dts2hx and I made some modifications where required to make things work better.
-If you want to upgrade the discord externs follow the process outlined in the dts2hx repo: (https://github.com/haxiomic/dts2hx) 
+If you want to upgrade the discord externs follow the process outlined in the dts2hx repo: https://github.com/haxiomic/dts2hx 
 
 ## Setup
 1) clone the repo
