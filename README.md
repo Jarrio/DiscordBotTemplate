@@ -4,7 +4,7 @@ I also bundle the discord externs, they were created with dts2hx and I made some
 If you want to upgrade the discord externs follow the process outlined in the dts2hx repo, link below.
 
 **Requires**:
-- Haxe 4.2+
+- [Haxe 4.2+](https://haxe.org/download)
 - [Aidan's ECS](https://github.com/Aidan63/ecs)
 
 Optional:
@@ -17,7 +17,7 @@ Optional:
 haxelib install hxnodejs
 haxelib git aidan-ecs https://github.com/Aidan63/ecs
 ```
-*Note: `hxnodejs` is not mandatory, it is just used to access sys stuff. You can mod out the file reader stuff which is only used to load in the config file in this example*
+*Note: `hxnodejs` is not mandatory, it is just used to access sys stuff. For this example it is required but easily removed should you not need it*
 
 3) cd into the `bin` directory and then run:
 ```
@@ -38,6 +38,8 @@ You can use this file to store other config settings by modifying the typedef fo
 7) Compile! 
 8) Run the bot using node: `node main.js` or hit the debug button in vscode
 9) In your discord server send the command `!hi` and the bot should reply :)
+
+![gif](https://user-images.githubusercontent.com/748557/117300860-e74c3200-ae71-11eb-8eec-d5953319ec02.gif)
 
 ## Usage
 Usage is simple, a system represents a command and most of the initial parsing work is done in `CommandBase` all you need to do is just implement your commands.
