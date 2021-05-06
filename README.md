@@ -23,6 +23,7 @@ npm install
 }
 ```
 You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file
+
 5) Go to (https://discord.com/developers/) to obtain your API token and further bot setup instructions
 6) Add the bot to a server
 7) Compile! 
@@ -31,7 +32,18 @@ You can use this file to store other config settings by modifying the typedef fo
 
 ## Usage
 Usage is simple, a system represents a command and most of the initial parsing work is done in `CommandBase` all you need to do is just implement your commands.
-A standard command would look like:
+
+### Adding a Command
+Head to the `Main.hx` and you should see a line that says: 
+```hx
+universe.setSystems(Hi);
+```
+To add more commands, simply append it to the universe making sure to **not** use wildcard imports.
+```hx
+universe.setSystems(Hi, Help); //Where Help is another command that extends CommandBase
+```
+
+### An Example Command
 ```hx
 package systems.commands;
 
