@@ -27,7 +27,7 @@ npm install
 ```
 You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file
 
-5) Go to (https://discord.com/developers/) to obtain your API token and further bot setup instructions
+5) Get your [`API token`](https://discord.com/developers/) and further bot setup instructions
 6) Add the bot to a server
 7) Compile! 
 8) Run the bot using node: `node main.js` or hit the debug button in vscode
@@ -79,7 +79,7 @@ Click [`Message`](https://discord.js.org/#/docs/main/stable/class/Message) to se
 - `content`: The content that is sent a long with the command, so if a user sent `!hi 123 456 789` content will be trimmed and parsed as:
 ```hx
 {
-	name: "hi",
+	name: "!hi",
 	content: "123 456 789"
 }
 ```
