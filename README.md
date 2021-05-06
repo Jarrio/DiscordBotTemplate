@@ -13,6 +13,8 @@ If you want to upgrade the discord externs follow the process outlined in the dt
 haxelib install hxnodejs
 haxelib git aidan-ecs https://github.com/Aidan63/ecs
 ```
+*Note: `hxnodejs` is not mandatory, it is just used to access sys stuff. You can mod out the file reader stuff which is only used to load in the config file in this example*
+
 3) cd into the `bin` directory and then run:
 ```
 npm install
