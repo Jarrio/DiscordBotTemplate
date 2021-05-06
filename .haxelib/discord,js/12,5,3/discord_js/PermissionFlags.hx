@@ -1,0 +1,35 @@
+package discord_js;
+
+typedef PermissionFlags = {
+	var CREATE_INSTANT_INVITE : Float;
+	var KICK_MEMBERS : Float;
+	var BAN_MEMBERS : Float;
+	var ADMINISTRATOR : Float;
+	var MANAGE_CHANNELS : Float;
+	var MANAGE_GUILD : Float;
+	var ADD_REACTIONS : Float;
+	var VIEW_AUDIT_LOG : Float;
+	var PRIORITY_SPEAKER : Float;
+	var STREAM : Float;
+	var VIEW_CHANNEL : Float;
+	var SEND_MESSAGES : Float;
+	var SEND_TTS_MESSAGES : Float;
+	var MANAGE_MESSAGES : Float;
+	var EMBED_LINKS : Float;
+	var ATTACH_FILES : Float;
+	var READ_MESSAGE_HISTORY : Float;
+	var MENTION_EVERYONE : Float;
+	var USE_EXTERNAL_EMOJIS : Float;
+	var VIEW_GUILD_INSIGHTS : Float;
+	var CONNECT : Float;
+	var SPEAK : Float;
+	var MUTE_MEMBERS : Float;
+	var DEAFEN_MEMBERS : Float;
+	var MOVE_MEMBERS : Float;
+	var USE_VAD : Float;
+	var CHANGE_NICKNAME : Float;
+	var MANAGE_NICKNAMES : Float;
+	var MANAGE_ROLES : Float;
+	var MANAGE_WEBHOOKS : Float;
+	var MANAGE_EMOJIS : Float;
+};

@@ -1,0 +1,14 @@
+{
+  "name": "haxebot",
+  "version": "1.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jarrio",
+  "license": "ISC",
+  "description": ""
+}

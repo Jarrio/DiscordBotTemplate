@@ -1,0 +1,12 @@
+-cp src
+-D analyzer-optimize
+--library aidan-ecs
+--library discord.js
+--library hxnodejs
+--debug
+-D ecs.static_loading
+-D source-map
+--js bin/main.js
+-main Main
+
+
