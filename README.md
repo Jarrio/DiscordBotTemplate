@@ -67,13 +67,16 @@ Is where you define your command name, this is what your users will type in disc
 
 ```run(command:Command, message:Message)```
 
-Is what will be called when a message that matches the commands name is sent, treat this is the init point of the command, `Message` represents a discord message and the API, documentation and usage can be found https://discord.js.org/#/docs/main/stable/class/Message. 
-`Command` is just an object with 2 fields: 
-	- `name`: The command name (`!hi`)
-	- `content`: The content that is sent a long with the command, so if a user sent `!hi 123 456 789` content will be trimmed and parsed as:
-	```hx
-	{
-		name: "hi",
-		content: "123 456 789"
-	}
-	```
+Is what will be called when a message that matches the commands name is sent, treat this is the init point of the command. 
+Click [`Message`](https://discord.js.org/#/docs/main/stable/class/Message) to see the official API, documentation and usage. 
+
+`Command` is just an object with 2 fields:
+ 
+- `name`: The command name (`!hi`)
+- `content`: The content that is sent a long with the command, so if a user sent `!hi 123 456 789` content will be trimmed and parsed as:
+```hx
+{
+	name: "hi",
+	content: "123 456 789"
+}
+```
