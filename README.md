@@ -3,6 +3,9 @@ A basic and probably over engineered approach to creating a discord bot in haxe.
 This comes with the discord externs, the externs were created with dts2hx and I made some modifications where required to make things work better.
 If you want to upgrade the discord externs follow the process outlined in the dts2hx repo: https://github.com/haxiomic/dts2hx 
 
+**Requires**:
+- Haxe 4.2+
+
 ## Setup
 1) clone the repo
 2) cd into the repo and then run the following:
