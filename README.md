@@ -10,7 +10,9 @@ If you want to upgrade the discord externs follow the process outlined in the dt
 Optional:
 - [DTS2HX](https://github.com/haxiomic/dts2hx)
 
-A more [`Complete`](https://github.com/Jarrio/Haxebot) example of how you can design your discord bot
+Example Project:
+- [`Haxebot`](https://github.com/Jarrio/Haxebot)
+
 ## Setup
 1) clone the repo
 2) cd into the repo and then run the following:
