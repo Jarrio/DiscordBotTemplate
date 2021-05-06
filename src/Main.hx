@@ -56,7 +56,7 @@ class Main {
 
 	static function main() {
 		try {
-			config = Json.parse(File.getContent('./bin/config.json'));
+			config = Json.parse(File.getContent('./config.json'));
 		} catch (e) {
 			trace(e.message);
 		}

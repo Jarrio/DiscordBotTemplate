@@ -36,7 +36,7 @@ You can use this file to store other config settings by modifying the typedef fo
 5) Get your [`API token`](https://discord.com/developers/) and read here for further bot setup instructions
 6) Add the bot to a server
 7) Compile! 
-8) Run the bot using node: `node main.js` or hit the debug button in vscode
+8) Run the bot using: `node main.js` or hit the debug button in vscode
 9) In your discord server send the command `!hi` and the bot should reply :)
 
 ![gif](https://user-images.githubusercontent.com/748557/117300860-e74c3200-ae71-11eb-8eec-d5953319ec02.gif)

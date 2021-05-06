@@ -3,7 +3,7 @@
 --library aidan-ecs
 --library discord.js
 --library hxnodejs
---debug
+--dce full
 -D ecs.static_loading
 -D source-map
 --js bin/main.js

@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Launch Program",
 			"preLaunchTask": "${defaultBuildTask}",
-			
+			"cwd": "${workspaceFolder}/bin",
 			"program": "${workspaceFolder}/bin/main.js",
 			"sourceMaps": true,
 			"skipFiles": [
