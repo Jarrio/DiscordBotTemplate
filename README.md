@@ -34,7 +34,7 @@ npm install
 	"discord_api_key": "TOKEN_HERE"
 }
 ```
-You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file
+*Note: You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file*
 
 5) Get your [`API token`](https://discord.com/developers/) and read here for further bot setup instructions
 6) Add the bot to a server
