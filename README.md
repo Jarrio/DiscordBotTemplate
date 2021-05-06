@@ -27,7 +27,7 @@ npm install
 ```
 You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file
 
-5) Get your [`API token`](https://discord.com/developers/) and further bot setup instructions
+5) Get your [`API token`](https://discord.com/developers/) and read here for further bot setup instructions
 6) Add the bot to a server
 7) Compile! 
 8) Run the bot using node: `node main.js` or hit the debug button in vscode
