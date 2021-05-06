@@ -38,7 +38,7 @@ Head to the `Main.hx` and you should see a line that says:
 ```hx
 universe.setSystems(Hi);
 ```
-To add more commands, simply append it to the universe making sure to **not** use wildcard imports.
+To add more commands, simply append it to the universe. When adding the component to the file, directly import it and make sure to **not** use wildcard imports.
 ```hx
 universe.setSystems(Hi, Help); //Where Help is another command that extends CommandBase
 ```
