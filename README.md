@@ -17,10 +17,12 @@ npm install
 4) Create a file in the `bin` directory called `config.json` and put the following in it:
 ```json
 {
+	"project_name": "Hi Bot",
 	"prefixes": ["!", "+"],
 	"discord_api_key": "TOKEN_HERE"
 }
 ```
+You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file
 5) Go to (https://discord.com/developers/) to obtain your API token and further bot setup instructions
 6) Add the bot to a server
 7) Compile! 
