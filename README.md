@@ -81,7 +81,7 @@ Is where you define your command name, this is what your users will type in disc
 
 ```run(command:Command, message:Message)```
 
-Is what will be called when a message that matches the commands name is sent, treat this is the init point of the command. 
+Is what will be called when a message that matches the commands has been sent, treat this as the init point of the command. 
 Click [`Message`](https://discord.js.org/#/docs/main/stable/class/Message) to see the official API, documentation and usage. 
 
 `Command` is just an object with 2 fields:
@@ -94,3 +94,12 @@ Click [`Message`](https://discord.js.org/#/docs/main/stable/class/Message) to se
 	content: "123 456 789"
 }
 ```
+
+### Update Loop
+If you need to add some code to the update loop, just override it but remember to call `super` otherwise the base logic wont run
+```hx
+override function update(_) {
+	// code checks here
+	super.update(_);
+	// ... or here
+}```
