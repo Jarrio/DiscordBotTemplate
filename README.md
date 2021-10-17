@@ -1,7 +1,7 @@
 # Discord Bot Template
 A basic and probably over engineered approach to creating a discord bot in haxe. This project depends on aidan's ecs but is easy to swap out should you want to.
 I also bundle the discord externs, they were created with dts2hx and I made some very basic modifications to types here and there.
-If you want to upgrade the discord externs follow the process outlined in the dts2hx repo, link below.
+If you want to upgrade the discord externs follow the process outlined in the dts2hx repo linked below.
 
 **Requires**:
 - [Haxe 4.2+](https://haxe.org/download)
@@ -9,6 +9,9 @@ If you want to upgrade the discord externs follow the process outlined in the dt
 
 Optional:
 - [DTS2HX](https://github.com/haxiomic/dts2hx)
+
+Example Project:
+- [`Haxebot`](https://github.com/Jarrio/Haxebot)
 
 ## Setup
 1) clone the repo
@@ -31,7 +34,7 @@ npm install
 	"discord_api_key": "TOKEN_HERE"
 }
 ```
-You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file
+*Note: You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file*
 
 5) Get your [`API token`](https://discord.com/developers/) and read here for further bot setup instructions
 6) Add the bot to a server
@@ -78,7 +81,7 @@ Is where you define your command name, this is what your users will type in disc
 
 ```run(command:Command, message:Message)```
 
-Is what will be called when a message that matches the commands name is sent, treat this is the init point of the command. 
+Is what will be called when a message that matches the commands has been sent, treat this as the init point of the command. 
 Click [`Message`](https://discord.js.org/#/docs/main/stable/class/Message) to see the official API, documentation and usage. 
 
 `Command` is just an object with 2 fields:
@@ -89,5 +92,15 @@ Click [`Message`](https://discord.js.org/#/docs/main/stable/class/Message) to se
 {
 	name: "!hi",
 	content: "123 456 789"
+}
+```
+
+### Update Loop
+If you need to add some code to the update loop, just override it but remember to call `super` otherwise the base logic wont run
+```hx
+override function update(_) {
+	// code checks here
+	super.update(_);
+	// ... or here
 }
 ```
