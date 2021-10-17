@@ -1,3 +1,6 @@
+import discord_js.ClientOptions.IntentFlags;
+import discordjs.rest.REST;
+import discord_api_types.Routes;
 import discord_js.Message;
 import discord_js.Client;
 import haxe.Json;
@@ -16,11 +19,20 @@ class Main {
 
 		universe.setSystems(Hi);
 
-		var client = new Client();
+		var client = new Client({intents: [IntentFlags.GUILDS, IntentFlags.GUILD_MEMBERS, IntentFlags.GUILD_MESSAGES]});
 		client.on('ready', function(_) {
 			connected = true;
 			trace('$name Ready!');
 		});
+
+		var rest = new REST({'version': '9'});
+
+		client.on('interactionCreate', (args) -> {
+			trace(args);
+			args.reply("Pong").then((succ) -> trace(succ), (err) -> trace(err));
+		});
+
+		client.on('message', (event) -> trace(event));
 
 		client.on('message', function(message:Message) {
 			var split = message.content.split(' ');

@@ -1,0 +1,14 @@
+{
+	"name": "discord-bulider",
+	"tags": [
+		"externs",
+		"typescript",
+		"javascript"
+	],
+	"description": "Externs for discord builders",
+	"contributors": [
+		"Jarrio"
+	],
+	"dependencies": {},
+	"version": "0.6.0"
+}

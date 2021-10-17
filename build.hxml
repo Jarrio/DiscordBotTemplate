@@ -3,10 +3,15 @@
 --library aidan-ecs
 --library discord.js
 --library hxnodejs
---dce full
+--library discord.js
+--library discord-api-types
+--library discordjs-collection
+--library discordjs-rest
+--library discord-builder
+--library node
+--dce no
 -D ecs.static_loading
 -D source-map
 --js bin/main.js
 -main Main
-
-
+--macro includeFile('jscode.js')

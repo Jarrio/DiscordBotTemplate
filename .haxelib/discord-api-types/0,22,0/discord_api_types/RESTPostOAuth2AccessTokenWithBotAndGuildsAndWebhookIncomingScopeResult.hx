@@ -1,0 +1,3 @@
+package discord_api_types;
+
+typedef RESTPostOAuth2AccessTokenWithBotAndGuildsAndWebhookIncomingScopeResult = Dynamic;

@@ -37,4 +37,25 @@ typedef ClientOptions = {
 	var ws : WebSocketOptions;
 	@:optional
 	var http : HTTPOptions;
+
+	@:optional 
+	var intents:Array<IntentFlags>;
 };
+
+enum abstract IntentFlags(String) to String {
+	var GUILDS;
+	var GUILD_MEMBERS;
+	var GUILD_BANS;
+	var GUILD_EMOJIS_AND_STICKERS;
+	var GUILD_INTEGRATIONS;
+	var GUILD_WEBHOOKS;
+	var GUILD_INVITES;
+	var GUILD_VOICE_STATES;
+	var GUILD_PRESENCES;
+	var GUILD_MESSAGES;
+	var GUILD_MESSAGE_REACTIONS;
+	var GUILD_MESSAGE_TYPING;
+	var DIRECT_MESSAGES;
+	var DIRECT_MESSAGE_REACTIONS;
+	var DIRECT_MESSAGE_TYPING;
+}
