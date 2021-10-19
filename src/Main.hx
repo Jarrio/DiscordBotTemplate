@@ -1,3 +1,6 @@
+import discord_builder.SlashCommandUserOption;
+import discord_builder.SlashCommandStringOption;
+import discord_builder.SlashCommandBuilder;
 import discord_js.ClientOptions.IntentFlags;
 import discordjs.rest.REST;
 import discord_api_types.Routes;
@@ -25,10 +28,24 @@ class Main {
 			trace('$name Ready!');
 		});
 
+		var commands = [];
+
+		var code = new SlashCommandBuilder().setName('code').setDescription('run code');
+		var input = new SlashCommandStringOption();
+		input.setName('code').setDescription('code goes here').setRequired(true);
+		code.addStringOption(input);
+		commands.push(code);
+
 		var rest = new REST({'version': '9'});
+		rest.setToken(Main.config.discord_api_key);
+		rest.put(Routes.applicationGuildCommands('661960123035418629', '162395145352904705'), 
+			{body: commands}).then((test) -> trace(test), (err) -> trace(err));
 
 		client.on('interactionCreate', (args) -> {
+			
 			trace(args);
+			var param = args.options.getUser('user');
+			trace(param);
 			args.reply("Pong").then((succ) -> trace(succ), (err) -> trace(err));
 		});
 
