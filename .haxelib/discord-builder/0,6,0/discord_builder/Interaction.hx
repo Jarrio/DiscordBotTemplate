@@ -8,7 +8,6 @@ import discord_js.Client;
 import discord_js.TextChannel;
 import discord_api_types.Snowflake;
 
-@:jsRequire('')
 extern class Interaction {
 	var applicationId:Snowflake;
 	var channel:TextChannel;

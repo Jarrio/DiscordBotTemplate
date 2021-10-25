@@ -1,3 +1,4 @@
+import discord_builder.BaseCommandInteraction;
 import discord_builder.SlashCommandUserOption;
 import discord_builder.SlashCommandStringOption;
 import discord_builder.SlashCommandBuilder;
@@ -32,21 +33,28 @@ class Main {
 
 		var code = new SlashCommandBuilder().setName('code').setDescription('run code');
 		var input = new SlashCommandStringOption();
-		input.setName('code').setDescription('code goes here').setRequired(true);
+		input.setName('code').setDescription('code goes here 123').setRequired(true);
 		code.addStringOption(input);
 		commands.push(code);
+		client.login(config.discord_api_key).then(function(_) {
+			trace('$name logged in!');
+		}, function(error) {
+			trace('$name Error!');
+			trace(error);
+		});
 
 		var rest = new REST({'version': '9'});
 		rest.setToken(Main.config.discord_api_key);
-		rest.put(Routes.applicationGuildCommands('661960123035418629', '162395145352904705'), 
+		rest.put(Routes.applicationGuildCommands(config.client_id, config.server_id), 
 			{body: commands}).then((test) -> trace(test), (err) -> trace(err));
 
-		client.on('interactionCreate', (args) -> {
-			
+
+		client.on('interactionCreate', (args:BaseCommandInteraction) -> {
 			trace(args);
-			var param = args.options.getUser('user');
-			trace(param);
-			args.reply("Pong").then((succ) -> trace(succ), (err) -> trace(err));
+			trace(args.options.getString('code'));
+			//var param = args.options.getUser('user');
+			//trace(param);
+			//args.reply("Pong").then((succ) -> trace(succ), (err) -> trace(err));
 		});
 
 		client.on('message', (event) -> trace(event));
@@ -59,24 +67,11 @@ class Main {
 				content = message.content.substring(first_word.length);
 			}
 			
-			for (prefix in config.prefixes) {
-				if (prefix == first_word.charAt(0)) {
-					var command = ({
-						name: first_word.trim(), 
-						content: content == null ? null : content.trim()
-					}:Command);
-					universe.setComponents(universe.createEntity(), command, message);
-					break;
-				}
-			}
+			//universe.setComponents(universe.createEntity(), command, message);
+			
 		});
 
-		client.login(config.discord_api_key).then(function(_) {
-			trace('$name logged in!');
-		}, function(error) {
-			trace('$name Error!');
-			trace(error);
-		});
+
 
 		new Timer(100).run = function() {
 			universe.update(1);
@@ -109,6 +104,7 @@ class Main {
 typedef TConfig = {
 	var project_name:String;
 	var macros:Bool;
-	var prefixes:Array<String>;
+	var client_id:String;
+	var server_id:String;
 	var discord_api_key:String;
 }
