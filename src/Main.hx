@@ -66,7 +66,7 @@ class Main {
 			throw ('Enter your discord auth token.');
 		}
 
-		var commands = new Array<AnySharedSlashCommand>();
+		var commands = new Array<AnySlashCommand>();
 		var hi = new SlashCommandBuilder().setName('hi').setDescription('Replies with hi!');
 		var boop = new SlashCommandBuilder().setName('boop').setDescription('Boop a user').addUserOption(
 			new SlashCommandUserOption().setName('user').setDescription('user to boop').setRequired(true)

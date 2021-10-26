@@ -451,8 +451,8 @@ Main.main = function() {
 	var commands = [];
 	var hi = new discord_$builder_SlashCommandBuilder().setName("hi").setDescription("Replies with hi!");
 	var boop = new discord_$builder_SlashCommandBuilder().setName("boop").setDescription("Boop a user").addUserOption(new discord_$builder_SlashCommandUserOption().setName("user").setDescription("user to boop").setRequired(true));
-	commands.push(discord_$builder_AnySharedSlashCommand.fromBase(hi));
-	commands.push(discord_$builder_AnySharedSlashCommand.fromUser(boop));
+	commands.push(discord_$builder_AnySlashCommand.fromBase(hi));
+	commands.push(discord_$builder_AnySlashCommand.fromUser(boop));
 	new discordjs_rest_REST({ version : "9"}).setToken(Main.config.discord_token).put(Routes.applicationGuildCommands(Main.config.client_id,Main.config.server_id),{ body : commands}).then(function(_) {
 		haxe_Log.trace("Successfully registered application commands.",{ fileName : "src/Main.hx", lineNumber : 81, className : "Main", methodName : "main"});
 	},function(err) {
@@ -1556,33 +1556,33 @@ components_CommandOptions.__constructs__ = [components_CommandOptions.None,compo
 components_CommandOptions.__empty_constructs__ = [components_CommandOptions.None,components_CommandOptions.Hi];
 var discord_$builder_SharedNameAndDescription = require("@discordjs/builders").SharedNameAndDescription;
 var discord_$builder_SharedSlashCommandOptions = require("@discordjs/builders").SharedSlashCommandOptions;
-var discord_$builder_AnySharedSlashCommand = {};
-discord_$builder_AnySharedSlashCommand._new = function(builder) {
+var discord_$builder_AnySlashCommand = {};
+discord_$builder_AnySlashCommand._new = function(builder) {
 	return builder;
 };
-discord_$builder_AnySharedSlashCommand.fromBase = function(base) {
-	return discord_$builder_AnySharedSlashCommand._new(base);
+discord_$builder_AnySlashCommand.fromBase = function(base) {
+	return discord_$builder_AnySlashCommand._new(base);
 };
-discord_$builder_AnySharedSlashCommand.fromUser = function(user) {
-	return discord_$builder_AnySharedSlashCommand._new(user);
+discord_$builder_AnySlashCommand.fromUser = function(user) {
+	return discord_$builder_AnySlashCommand._new(user);
 };
-discord_$builder_AnySharedSlashCommand.fromBool = function(bool) {
-	return discord_$builder_AnySharedSlashCommand._new(bool);
+discord_$builder_AnySlashCommand.fromBool = function(bool) {
+	return discord_$builder_AnySlashCommand._new(bool);
 };
-discord_$builder_AnySharedSlashCommand.fromString = function(string) {
-	return discord_$builder_AnySharedSlashCommand._new(string);
+discord_$builder_AnySlashCommand.fromString = function(string) {
+	return discord_$builder_AnySlashCommand._new(string);
 };
-discord_$builder_AnySharedSlashCommand.fromChannel = function(channel) {
-	return discord_$builder_AnySharedSlashCommand._new(channel);
+discord_$builder_AnySlashCommand.fromChannel = function(channel) {
+	return discord_$builder_AnySlashCommand._new(channel);
 };
-discord_$builder_AnySharedSlashCommand.fromRole = function(role) {
-	return discord_$builder_AnySharedSlashCommand._new(role);
+discord_$builder_AnySlashCommand.fromRole = function(role) {
+	return discord_$builder_AnySlashCommand._new(role);
 };
-discord_$builder_AnySharedSlashCommand.fromNumber = function(number) {
-	return discord_$builder_AnySharedSlashCommand._new(number);
+discord_$builder_AnySlashCommand.fromNumber = function(number) {
+	return discord_$builder_AnySlashCommand._new(number);
 };
-discord_$builder_AnySharedSlashCommand.fromMentionable = function(mentionable) {
-	return discord_$builder_AnySharedSlashCommand._new(mentionable);
+discord_$builder_AnySlashCommand.fromMentionable = function(mentionable) {
+	return discord_$builder_AnySlashCommand._new(mentionable);
 };
 var discord_$builder_SlashCommandOptionBase = require("@discordjs/builders").SlashCommandOptionBase;
 var discord_$builder_SlashCommandBooleanOption = require("@discordjs/builders").SlashCommandBooleanOption;

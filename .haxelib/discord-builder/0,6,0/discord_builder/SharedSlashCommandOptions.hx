@@ -35,32 +35,32 @@ extern class SharedSlashCommandOptions extends SharedNameAndDescription {
 	
 }
 
-abstract AnySharedSlashCommand(SlashCommandBuilder) {
+abstract AnySlashCommand(SlashCommandBuilder) {
 	private function new(builder:SlashCommandBuilder) {
 		this = builder;
 	}
 	@:from static function fromBase(base:SlashCommandBuilder) {
-		return new AnySharedSlashCommand(cast base);
+		return new AnySlashCommand(cast base);
 	}
 	@:from static function fromUser(user:SlashCommandUserOption) {
-		return new AnySharedSlashCommand(cast user);
+		return new AnySlashCommand(cast user);
 	}
 	@:from static function fromBool(bool:SlashCommandBooleanOption) {
-		return new AnySharedSlashCommand(cast bool);
+		return new AnySlashCommand(cast bool);
 	}
 	@:from static function fromString(string:SlashCommandStringOption) {
-		return new AnySharedSlashCommand(cast string);
+		return new AnySlashCommand(cast string);
 	}
 	@:from static function fromChannel(channel:SlashCommandChannelOption) {
-		return new AnySharedSlashCommand(cast channel);
+		return new AnySlashCommand(cast channel);
 	}
 	@:from static function fromRole(role:SlashCommandRoleOption) {
-		return new AnySharedSlashCommand(cast role);
+		return new AnySlashCommand(cast role);
 	}
 	@:from static function fromNumber(number:SlashCommandNumberOption) {
-		return new AnySharedSlashCommand(cast number);
+		return new AnySlashCommand(cast number);
 	}
 	@:from static function fromMentionable(mentionable:SlashCommandMentionableOption) {
-		return new AnySharedSlashCommand(cast mentionable);
+		return new AnySlashCommand(cast mentionable);
 	}
 }
