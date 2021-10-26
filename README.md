@@ -3,6 +3,11 @@ A basic and probably over engineered approach to creating a discord bot in haxe.
 I also bundle the discord externs, they were created with dts2hx and I made some very basic modifications to types here and there.
 If you want to upgrade the discord externs follow the process outlined in the dts2hx repo linked below.
 
+## >-------BREAKING CHANGE NOTICE--------<
+The new update to this library moves the framework completely to the new discord commands API. Take note of the changed code base and command instantiation.
+This README is outdated, but I have added 2 examples to the bots template setup. I'll update the README at a later date, for now look at the official discord.js docs for some code guidance to use this library. 
+
+
 **Requires**:
 - [Haxe 4.2+](https://haxe.org/download)
 - [Aidan's ECS](https://github.com/Aidan63/ecs)
