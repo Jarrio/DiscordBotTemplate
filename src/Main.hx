@@ -31,8 +31,6 @@ class Main {
 		});
 
 		client.on('interactionCreate', (interaction:BaseCommandInteraction) -> {
-			trace('here');
-			trace(interaction);
 			if (!interaction.isCommand()) return;
 			
 			var command:Command = {

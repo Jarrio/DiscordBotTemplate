@@ -411,8 +411,6 @@ Main.start = function() {
 		Main.connected = true;
 	});
 	client.on("interactionCreate",function(interaction) {
-		haxe_Log.trace("here",{ fileName : "src/Main.hx", lineNumber : 34, className : "Main", methodName : "start"});
-		haxe_Log.trace(interaction,{ fileName : "src/Main.hx", lineNumber : 35, className : "Main", methodName : "start"});
 		if(!interaction.isCommand()) {
 			return;
 		}
@@ -445,7 +443,7 @@ Main.main = function() {
 		Main.config = JSON.parse(js_node_Fs.readFileSync("./config.json",{ encoding : "utf8"}));
 	} catch( _g ) {
 		var _g1 = haxe_Exception.caught(_g);
-		haxe_Log.trace(_g1.get_message(),{ fileName : "src/Main.hx", lineNumber : 64, className : "Main", methodName : "main"});
+		haxe_Log.trace(_g1.get_message(),{ fileName : "src/Main.hx", lineNumber : 62, className : "Main", methodName : "main"});
 	}
 	if(Main.config == null || Main.config.discord_token == "TOKEN_HERE") {
 		throw haxe_Exception.thrown("Enter your discord auth token.");
@@ -456,9 +454,9 @@ Main.main = function() {
 	commands.push(discord_$builder_AnySharedSlashCommand.fromBase(hi));
 	commands.push(discord_$builder_AnySharedSlashCommand.fromUser(boop));
 	new discordjs_rest_REST({ version : "9"}).setToken(Main.config.discord_token).put(Routes.applicationGuildCommands(Main.config.client_id,Main.config.server_id),{ body : commands}).then(function(_) {
-		haxe_Log.trace("Successfully registered application commands.",{ fileName : "src/Main.hx", lineNumber : 83, className : "Main", methodName : "main"});
+		haxe_Log.trace("Successfully registered application commands.",{ fileName : "src/Main.hx", lineNumber : 81, className : "Main", methodName : "main"});
 	},function(err) {
-		haxe_Log.trace(err,{ fileName : "src/Main.hx", lineNumber : 83, className : "Main", methodName : "main"});
+		haxe_Log.trace(err,{ fileName : "src/Main.hx", lineNumber : 81, className : "Main", methodName : "main"});
 	});
 	Main.start();
 };
