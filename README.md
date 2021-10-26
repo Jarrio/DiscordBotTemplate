@@ -35,8 +35,9 @@ npm install
 ```json
 {
 	"project_name": "Hi Bot",
-	"prefixes": ["!", "+"],
-	"discord_api_key": "TOKEN_HERE"
+	"discord_token": "TOKEN_HERE",
+	"client_id": "CLIENT ID",
+	"server_id": "DEVELOPER SERVER ID"
 }
 ```
 *Note: You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file*
