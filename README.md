@@ -3,6 +3,11 @@ A basic and probably over engineered approach to creating a discord bot in haxe.
 I also bundle the discord externs, they were created with dts2hx and I made some very basic modifications to types here and there.
 If you want to upgrade the discord externs follow the process outlined in the dts2hx repo linked below.
 
+## >-------BREAKING CHANGE NOTICE--------<
+The new update to this library moves the framework completely to the new discord commands API. Take note of the changed code base and command instantiation.
+This README is outdated, but I have added 2 examples to the bots template setup. I'll update the README at a later date, for now look at the official discord.js docs for some code guidance to use this library. 
+
+
 **Requires**:
 - [Haxe 4.2+](https://haxe.org/download)
 - [Aidan's ECS](https://github.com/Aidan63/ecs)
@@ -30,8 +35,9 @@ npm install
 ```json
 {
 	"project_name": "Hi Bot",
-	"prefixes": ["!", "+"],
-	"discord_api_key": "TOKEN_HERE"
+	"discord_token": "TOKEN_HERE",
+	"client_id": "CLIENT ID",
+	"server_id": "DEVELOPER SERVER ID"
 }
 ```
 *Note: You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file*
@@ -40,7 +46,7 @@ npm install
 6) Add the bot to a server
 7) Compile! 
 8) Run the bot using: `node main.js` or hit the debug button in vscode
-9) In your discord server send the command `!hi` and the bot should reply :)
+9) In your discord server send the command `/hi` or `/boop` and the bot should reply :)
 
 ![gif](https://user-images.githubusercontent.com/748557/117300860-e74c3200-ae71-11eb-8eec-d5953319ec02.gif)
 
