@@ -401,39 +401,41 @@ Main.universe = null;
 Main.start = function() {
 	Main.universe = new ecs_Universe(1000);
 	Main.universe.systems.add(new systems_commands_Hi(Main.universe));
-	var client = new discord_$js_Client({ intents : ["GUILDS","GUILD_MEMBERS","GUILD_MESSAGES"]});
-	client.on("ready",function(_) {
+	Main.universe.systems.add(new systems_commands_Boop(Main.universe));
+	var client = new discord_$js_Client({ intents : ["GUILDS","GUILD_MESSAGES"]});
+	client.once("ready",function() {
+		var $l=arguments.length;
+		var _ = new Array($l>0?$l-0:0);
+		for(var $i=0;$i<$l;++$i){_[$i-0]=arguments[$i];}
+		haxe_Log.trace("Ready!",{ fileName : "src/Main.hx", lineNumber : 29, className : "Main", methodName : "start"});
 		Main.connected = true;
-		haxe_Log.trace("" + Main.get_name() + " Ready!",{ fileName : "src/Main.hx", lineNumber : 29, className : "Main", methodName : "start"});
 	});
-	var commands = [];
-	var code = new discord_$builder_SlashCommandBuilder().setName("code").setDescription("run code");
-	var input = new discord_$builder_SlashCommandStringOption();
-	input.setName("code").setDescription("code goes here 123").setRequired(true);
-	code.addStringOption(input);
-	commands.push(code);
-	client.login(Main.config.discord_api_key).then(function(_) {
-		haxe_Log.trace("" + Main.get_name() + " logged in!",{ fileName : "src/Main.hx", lineNumber : 40, className : "Main", methodName : "start"});
-	},function(error) {
-		haxe_Log.trace("" + Main.get_name() + " Error!",{ fileName : "src/Main.hx", lineNumber : 42, className : "Main", methodName : "start"});
-		haxe_Log.trace(error,{ fileName : "src/Main.hx", lineNumber : 43, className : "Main", methodName : "start"});
+	client.on("interactionCreate",function(interaction) {
+		haxe_Log.trace("here",{ fileName : "src/Main.hx", lineNumber : 34, className : "Main", methodName : "start"});
+		haxe_Log.trace(interaction,{ fileName : "src/Main.hx", lineNumber : 35, className : "Main", methodName : "start"});
+		if(!interaction.isCommand()) {
+			return;
+		}
+		var command = { name : interaction.commandName, content : components_CommandOptions.None};
+		switch(interaction.commandName) {
+		case "boop":
+			command.content = components_CommandOptions.Boop(interaction.options.getUser("user"));
+			break;
+		case "hi":
+			command.content = components_CommandOptions.Hi;
+			break;
+		default:
+		}
+		var _ecsTmpEntity = Main.universe.entities.create();
+		Main.universe.components.set_components_Command(_ecsTmpEntity,1,command);
+		Main.universe.components.set_discord_builder_BaseCommandInteraction(_ecsTmpEntity,0,interaction);
+		var ecsEntCompFlags = Main.universe.components.flags[ecs_Entity.id(_ecsTmpEntity)];
+		var ecsTmpFamily = Main.universe.families.get(0);
+		if(bits_Bits.areSet(ecsEntCompFlags,ecsTmpFamily.componentsMask)) {
+			ecsTmpFamily.add(_ecsTmpEntity);
+		}
 	});
-	var rest = new discordjs_rest_REST({ "version" : "9"});
-	rest.setToken(Main.config.discord_api_key);
-	rest.put(Routes.applicationGuildCommands(Main.config.client_id,Main.config.server_id),{ body : commands}).then(function(test) {
-		haxe_Log.trace(test == null ? "null" : Std.string(test),{ fileName : "src/Main.hx", lineNumber : 49, className : "Main", methodName : "start"});
-	},function(err) {
-		haxe_Log.trace(err,{ fileName : "src/Main.hx", lineNumber : 49, className : "Main", methodName : "start"});
-	});
-	client.on("interactionCreate",function(args) {
-		haxe_Log.trace(args,{ fileName : "src/Main.hx", lineNumber : 53, className : "Main", methodName : "start"});
-		haxe_Log.trace(args.options.getString("code"),{ fileName : "src/Main.hx", lineNumber : 54, className : "Main", methodName : "start"});
-	});
-	client.on("message",function(event) {
-		haxe_Log.trace(event,{ fileName : "src/Main.hx", lineNumber : 60, className : "Main", methodName : "start"});
-	});
-	client.on("message",function(message) {
-	});
+	client.login(Main.config.discord_token);
 	new haxe_Timer(100).run = function() {
 		Main.universe.update(1);
 	};
@@ -443,11 +445,21 @@ Main.main = function() {
 		Main.config = JSON.parse(js_node_Fs.readFileSync("./config.json",{ encoding : "utf8"}));
 	} catch( _g ) {
 		var _g1 = haxe_Exception.caught(_g);
-		haxe_Log.trace(_g1.get_message(),{ fileName : "src/Main.hx", lineNumber : 85, className : "Main", methodName : "main"});
+		haxe_Log.trace(_g1.get_message(),{ fileName : "src/Main.hx", lineNumber : 64, className : "Main", methodName : "main"});
 	}
-	if(Main.config == null || Main.config.discord_api_key == "TOKEN_HERE") {
+	if(Main.config == null || Main.config.discord_token == "TOKEN_HERE") {
 		throw haxe_Exception.thrown("Enter your discord auth token.");
 	}
+	var commands = [];
+	var hi = new discord_$builder_SlashCommandBuilder().setName("hi").setDescription("Replies with hi!");
+	var boop = new discord_$builder_SlashCommandBuilder().setName("boop").setDescription("Boop a user").addUserOption(new discord_$builder_SlashCommandUserOption().setName("user").setDescription("user to boop").setRequired(true));
+	commands.push(discord_$builder_AnySharedSlashCommand.fromBase(hi));
+	commands.push(discord_$builder_AnySharedSlashCommand.fromUser(boop));
+	new discordjs_rest_REST({ version : "9"}).setToken(Main.config.discord_token).put(Routes.applicationGuildCommands(Main.config.client_id,Main.config.server_id),{ body : commands}).then(function(_) {
+		haxe_Log.trace("Successfully registered application commands.",{ fileName : "src/Main.hx", lineNumber : 83, className : "Main", methodName : "main"});
+	},function(err) {
+		haxe_Log.trace(err,{ fileName : "src/Main.hx", lineNumber : 83, className : "Main", methodName : "main"});
+	});
 	Main.start();
 };
 Main.get_name = function() {
@@ -1537,8 +1549,43 @@ bits_BitsData.set = function(this1,index,value) {
 bits_BitsData.get_length = function(this1) {
 	return this1.length;
 };
+var components_CommandOptions = $hxEnums["components.CommandOptions"] = { __ename__:"components.CommandOptions",__constructs__:null
+	,None: {_hx_name:"None",_hx_index:0,__enum__:"components.CommandOptions",toString:$estr}
+	,Hi: {_hx_name:"Hi",_hx_index:1,__enum__:"components.CommandOptions",toString:$estr}
+	,Boop: ($_=function(user) { return {_hx_index:2,user:user,__enum__:"components.CommandOptions",toString:$estr}; },$_._hx_name="Boop",$_.__params__ = ["user"],$_)
+};
+components_CommandOptions.__constructs__ = [components_CommandOptions.None,components_CommandOptions.Hi,components_CommandOptions.Boop];
+components_CommandOptions.__empty_constructs__ = [components_CommandOptions.None,components_CommandOptions.Hi];
 var discord_$builder_SharedNameAndDescription = require("@discordjs/builders").SharedNameAndDescription;
 var discord_$builder_SharedSlashCommandOptions = require("@discordjs/builders").SharedSlashCommandOptions;
+var discord_$builder_AnySharedSlashCommand = {};
+discord_$builder_AnySharedSlashCommand._new = function(builder) {
+	return builder;
+};
+discord_$builder_AnySharedSlashCommand.fromBase = function(base) {
+	return discord_$builder_AnySharedSlashCommand._new(base);
+};
+discord_$builder_AnySharedSlashCommand.fromUser = function(user) {
+	return discord_$builder_AnySharedSlashCommand._new(user);
+};
+discord_$builder_AnySharedSlashCommand.fromBool = function(bool) {
+	return discord_$builder_AnySharedSlashCommand._new(bool);
+};
+discord_$builder_AnySharedSlashCommand.fromString = function(string) {
+	return discord_$builder_AnySharedSlashCommand._new(string);
+};
+discord_$builder_AnySharedSlashCommand.fromChannel = function(channel) {
+	return discord_$builder_AnySharedSlashCommand._new(channel);
+};
+discord_$builder_AnySharedSlashCommand.fromRole = function(role) {
+	return discord_$builder_AnySharedSlashCommand._new(role);
+};
+discord_$builder_AnySharedSlashCommand.fromNumber = function(number) {
+	return discord_$builder_AnySharedSlashCommand._new(number);
+};
+discord_$builder_AnySharedSlashCommand.fromMentionable = function(mentionable) {
+	return discord_$builder_AnySharedSlashCommand._new(mentionable);
+};
 var discord_$builder_SlashCommandOptionBase = require("@discordjs/builders").SlashCommandOptionBase;
 var discord_$builder_SlashCommandBooleanOption = require("@discordjs/builders").SlashCommandBooleanOption;
 var discord_$builder_SlashCommandBuilder = require("@discordjs/builders").SlashCommandBuilder;
@@ -1663,12 +1710,12 @@ ecs_Components_$components_$Command.prototype = {
 	}
 	,__class__: ecs_Components_$components_$Command
 };
-var ecs_Components_$discord_$js_$Message = function(_size) {
+var ecs_Components_$discord_$builder_$BaseCommandInteraction = function(_size) {
 	this.components = new Array(_size);
 };
-$hxClasses["ecs.Components_discord_js_Message"] = ecs_Components_$discord_$js_$Message;
-ecs_Components_$discord_$js_$Message.__name__ = "ecs.Components_discord_js_Message";
-ecs_Components_$discord_$js_$Message.prototype = {
+$hxClasses["ecs.Components_discord_builder_BaseCommandInteraction"] = ecs_Components_$discord_$builder_$BaseCommandInteraction;
+ecs_Components_$discord_$builder_$BaseCommandInteraction.__name__ = "ecs.Components_discord_builder_BaseCommandInteraction";
+ecs_Components_$discord_$builder_$BaseCommandInteraction.prototype = {
 	components: null
 	,set: function(_entity,_component) {
 		this.components[ecs_Entity.id(_entity)] = _component;
@@ -1676,7 +1723,7 @@ ecs_Components_$discord_$js_$Message.prototype = {
 	,get: function(_entity) {
 		return this.components[ecs_Entity.id(_entity)];
 	}
-	,__class__: ecs_Components_$discord_$js_$Message
+	,__class__: ecs_Components_$discord_$builder_$BaseCommandInteraction
 };
 var ecs_Entity = {};
 ecs_Entity._new = function(_id) {
@@ -1810,7 +1857,7 @@ var ecs_core_ComponentManager = function(_entities) {
 	this.flags = new Array(_entities.capacity());
 	this.components = new Array(2);
 	this.components[1] = new ecs_Components_$components_$Command(_entities.capacity());
-	this.components[0] = new ecs_Components_$discord_$js_$Message(_entities.capacity());
+	this.components[0] = new ecs_Components_$discord_$builder_$BaseCommandInteraction(_entities.capacity());
 	var _g = 0;
 	var _g1 = this.flags.length;
 	while(_g < _g1) this.flags[_g++] = [0];
@@ -1818,7 +1865,7 @@ var ecs_core_ComponentManager = function(_entities) {
 $hxClasses["ecs.core.ComponentManager"] = ecs_core_ComponentManager;
 ecs_core_ComponentManager.__name__ = "ecs.core.ComponentManager";
 ecs_core_ComponentManager.prototype = {
-	set_discord_js_Message: function(_entity,_id,_component) {
+	set_discord_builder_BaseCommandInteraction: function(_entity,_id,_component) {
 		this.components[_id].set(_entity,_component);
 		bits_Bits.set(this.flags[ecs_Entity.id(_entity)],_id);
 	}
@@ -9108,10 +9155,10 @@ systems_CommandBase.prototype = $extend(ecs_System.prototype,{
 		var _g = this.commands.iterator();
 		while(_g.active && _g.idx < _g.set.size()) {
 			var entity = _g.set.getDense(_g.idx++);
-			var message = this.table6c16270644d94dba4055a067a073b12c.get(entity);
+			var interaction = this.table29372b5f3de85aef648e8f952540e2ec.get(entity);
 			var command = this.tableff7698320b2346222a0ba18495307447.get(entity);
 			if(command.name == this.get_name()) {
-				this.run(command,message);
+				this.run(command,interaction);
 				this.commands.remove(entity);
 			}
 		}
@@ -9121,17 +9168,41 @@ systems_CommandBase.prototype = $extend(ecs_System.prototype,{
 	,onAdded: function() {
 		ecs_System.prototype.onAdded.call(this);
 		this.commands = this.universe.families.get(0);
-		this.table6c16270644d94dba4055a067a073b12c = this.universe.components.getTable(0);
+		this.table29372b5f3de85aef648e8f952540e2ec = this.universe.components.getTable(0);
 		this.tableff7698320b2346222a0ba18495307447 = this.universe.components.getTable(1);
 	}
 	,onRemoved: function() {
 		ecs_System.prototype.onRemoved.call(this);
 	}
 	,commands: null
-	,table6c16270644d94dba4055a067a073b12c: null
+	,table29372b5f3de85aef648e8f952540e2ec: null
 	,tableff7698320b2346222a0ba18495307447: null
 	,__class__: systems_CommandBase
 	,__properties__: {get_name:"get_name"}
+});
+var systems_commands_Boop = function(_universe) {
+	systems_CommandBase.call(this,_universe);
+};
+$hxClasses["systems.commands.Boop"] = systems_commands_Boop;
+systems_commands_Boop.__name__ = "systems.commands.Boop";
+systems_commands_Boop.__super__ = systems_CommandBase;
+systems_commands_Boop.prototype = $extend(systems_CommandBase.prototype,{
+	run: function(command,interaction) {
+		var _g = command.content;
+		if(_g._hx_index == 2) {
+			interaction.reply("BOOP <@" + _g.user.id + ">");
+		}
+	}
+	,get_name: function() {
+		return "boop";
+	}
+	,onAdded: function() {
+		systems_CommandBase.prototype.onAdded.call(this);
+	}
+	,onRemoved: function() {
+		systems_CommandBase.prototype.onRemoved.call(this);
+	}
+	,__class__: systems_commands_Boop
 });
 var systems_commands_Hi = function(_universe) {
 	systems_CommandBase.call(this,_universe);
@@ -9140,11 +9211,11 @@ $hxClasses["systems.commands.Hi"] = systems_commands_Hi;
 systems_commands_Hi.__name__ = "systems.commands.Hi";
 systems_commands_Hi.__super__ = systems_CommandBase;
 systems_commands_Hi.prototype = $extend(systems_CommandBase.prototype,{
-	run: function(command,message) {
-		message.reply("Hey there");
+	run: function(command,interaction) {
+		interaction.reply("Hey there");
 	}
 	,get_name: function() {
-		return "!hi";
+		return "hi";
 	}
 	,onAdded: function() {
 		systems_CommandBase.prototype.onAdded.call(this);

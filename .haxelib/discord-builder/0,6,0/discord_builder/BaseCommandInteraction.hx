@@ -8,6 +8,7 @@ import discord_api_types.Snowflake;
 
 @:native
 extern class BaseCommandInteraction extends Interaction {
+	var ephemeral:Bool;
 	var command:Dynamic;
 	var commandId:Snowflake;
 	var commandName:String;

@@ -1,18 +1,18 @@
-import discord_builder.BaseCommandInteraction;
+import discord_builder.SharedSlashCommandOptions;
 import discord_builder.SlashCommandUserOption;
-import discord_builder.SlashCommandStringOption;
+import components.Command;
+import discord_builder.BaseCommandInteraction;
 import discord_builder.SlashCommandBuilder;
 import discord_js.ClientOptions.IntentFlags;
 import discordjs.rest.REST;
 import discord_api_types.Routes;
-import discord_js.Message;
 import discord_js.Client;
 import haxe.Json;
 import sys.io.File;
 import ecs.Universe;
 import haxe.Timer;
-import components.Command;
 import systems.commands.Hi;
+import systems.commands.Boop;
 
 class Main {
 	public static var connected:Bool = false;
@@ -20,58 +20,37 @@ class Main {
 	public static var universe:Universe;
 	public static function start() {
 		universe = new Universe(1000);
-
 		universe.setSystems(Hi);
+		universe.setSystems(Boop);
 
-		var client = new Client({intents: [IntentFlags.GUILDS, IntentFlags.GUILD_MEMBERS, IntentFlags.GUILD_MESSAGES]});
-		client.on('ready', function(_) {
+		var client = new Client({intents: [IntentFlags.GUILDS, IntentFlags.GUILD_MESSAGES]});
+
+		client.once('ready', (_) -> {
+			trace('Ready!');
 			connected = true;
-			trace('$name Ready!');
 		});
 
-		var commands = [];
-
-		var code = new SlashCommandBuilder().setName('code').setDescription('run code');
-		var input = new SlashCommandStringOption();
-		input.setName('code').setDescription('code goes here 123').setRequired(true);
-		code.addStringOption(input);
-		commands.push(code);
-		client.login(config.discord_api_key).then(function(_) {
-			trace('$name logged in!');
-		}, function(error) {
-			trace('$name Error!');
-			trace(error);
-		});
-
-		var rest = new REST({'version': '9'});
-		rest.setToken(Main.config.discord_api_key);
-		rest.put(Routes.applicationGuildCommands(config.client_id, config.server_id), 
-			{body: commands}).then((test) -> trace(test), (err) -> trace(err));
-
-
-		client.on('interactionCreate', (args:BaseCommandInteraction) -> {
-			trace(args);
-			trace(args.options.getString('code'));
-			//var param = args.options.getUser('user');
-			//trace(param);
-			//args.reply("Pong").then((succ) -> trace(succ), (err) -> trace(err));
-		});
-
-		client.on('message', (event) -> trace(event));
-
-		client.on('message', function(message:Message) {
-			var split = message.content.split(' ');
-			var first_word = split[0];
-			var content = null;
-			if (split.length > 1) {
-				content = message.content.substring(first_word.length);
+		client.on('interactionCreate', (interaction:BaseCommandInteraction) -> {
+			trace('here');
+			trace(interaction);
+			if (!interaction.isCommand()) return;
+			
+			var command:Command = {
+				name: interaction.commandName,
+				content: None
 			}
 			
-			//universe.setComponents(universe.createEntity(), command, message);
-			
+			switch(interaction.commandName) {
+				case 'hi':
+					command.content = Hi;
+				case 'boop':
+					command.content = Boop(interaction.options.getUser('user'));
+				default:
+			}
+			universe.setComponents(universe.createEntity(), command, interaction);
 		});
 
-
+		client.login(config.discord_token);
 
 		new Timer(100).run = function() {
 			universe.update(1);
@@ -85,9 +64,23 @@ class Main {
 			trace(e.message);
 		}
 
-		if (config == null || config.discord_api_key == 'TOKEN_HERE') {
+		if (config == null || config.discord_token == 'TOKEN_HERE') {
 			throw ('Enter your discord auth token.');
 		}
+
+		var commands = new Array<AnySharedSlashCommand>();
+		var hi = new SlashCommandBuilder().setName('hi').setDescription('Replies with hi!');
+		var boop = new SlashCommandBuilder().setName('boop').setDescription('Boop a user').addUserOption(
+			new SlashCommandUserOption().setName('user').setDescription('user to boop').setRequired(true)
+		);
+		
+		commands.push(hi);
+		commands.push(boop);
+		
+		var rest = new REST({ version: '9' }).setToken(config.discord_token);
+		
+		rest.put(Routes.applicationGuildCommands(config.client_id, config.server_id), { body: commands })
+			.then((_) -> trace('Successfully registered application commands.'), (err) -> trace(err));
 
 		start();
 	}
@@ -106,5 +99,5 @@ typedef TConfig = {
 	var macros:Bool;
 	var client_id:String;
 	var server_id:String;
-	var discord_api_key:String;
+	var discord_token:String;
 }

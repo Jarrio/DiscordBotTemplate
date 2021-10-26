@@ -1,11 +1,11 @@
 package discord_builder;
 
 @:jsRequire('@discordjs/builders', 'SlashCommandOptionBase')
-extern class SlashCommandOptionBase extends SharedNameAndDescription {
+extern class SlashCommandOptionBase<T:SlashCommandOptionBase<Dynamic>> extends SharedNameAndDescription {
 	public var required:Bool;
 	public function new();
-	public function setName(command_name:String):SlashCommandBuilder;
-	public function setDescription(description:String):SlashCommandBuilder;
-	public function setRequired(required:Bool):SlashCommandOptionBase;
+	public function setName(command_name:String):T;
+	public function setDescription(description:String):T;
+	public function setRequired(required:Bool):T;
 	public function toJSON():String;
 }

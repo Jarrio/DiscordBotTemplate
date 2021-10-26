@@ -1,6 +1,7 @@
 package discord_builder;
 
-import haxe.extern.EitherType;
+import discord_builder.SlashCommandUserOption;
+import discord_builder.SlashCommandBuilder;
 
 @:jsRequire('@discordjs/builders', 'SharedSlashCommandOptions')
 extern class SharedSlashCommandOptions extends SharedNameAndDescription {
@@ -32,4 +33,34 @@ extern class SharedSlashCommandOptions extends SharedNameAndDescription {
 	@:overload(function(input:(builder:SlashCommandNumberOption)->SlashCommandNumberOption):SlashCommandNumberOption {})
 	public function addNumberOption():SlashCommandBuilder;
 	
+}
+
+abstract AnySharedSlashCommand(SlashCommandBuilder) {
+	private function new(builder:SlashCommandBuilder) {
+		this = builder;
+	}
+	@:from static function fromBase(base:SlashCommandBuilder) {
+		return new AnySharedSlashCommand(cast base);
+	}
+	@:from static function fromUser(user:SlashCommandUserOption) {
+		return new AnySharedSlashCommand(cast user);
+	}
+	@:from static function fromBool(bool:SlashCommandBooleanOption) {
+		return new AnySharedSlashCommand(cast bool);
+	}
+	@:from static function fromString(string:SlashCommandStringOption) {
+		return new AnySharedSlashCommand(cast string);
+	}
+	@:from static function fromChannel(channel:SlashCommandChannelOption) {
+		return new AnySharedSlashCommand(cast channel);
+	}
+	@:from static function fromRole(role:SlashCommandRoleOption) {
+		return new AnySharedSlashCommand(cast role);
+	}
+	@:from static function fromNumber(number:SlashCommandNumberOption) {
+		return new AnySharedSlashCommand(cast number);
+	}
+	@:from static function fromMentionable(mentionable:SlashCommandMentionableOption) {
+		return new AnySharedSlashCommand(cast mentionable);
+	}
 }

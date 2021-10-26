@@ -91,7 +91,7 @@ Click [`Message`](https://discord.js.org/#/docs/main/stable/class/Message) to se
 ```hx
 {
 	name: "!hi",
-	content: "123 456 789"
+	content: Hi //represented by a haxe enum
 }
 ```
 
