@@ -8,6 +8,7 @@ The new update to this library moves the framework completely to the new discord
 This README is outdated, but I have added 2 examples to the bots template setup. I'll update the README at a later date, for now look at the official discord.js docs for some code guidance to use this library. 
 
 **THINGS MAY CHANGE**
+
 Will be experimenting with some stuff but this is just to get a preliminary release of the new API done and dusted.
 
 
