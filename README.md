@@ -126,7 +126,7 @@ universe.setSystems(Hi);
 ```
 To add more commands, simply append it to the universe. When adding the component to the file, directly import it and make sure to **not** use wildcard imports.
 ```hx
-universe.setSystems(Hi, Help, Test); //Where Help is another command that extends CommandBase
+universe.setSystems(Hi, Help, Test); //All these commands extend CommandBase
 ```
 
 ### A Basic Command Example
