@@ -70,6 +70,7 @@ enum CommandOptions {
 ```
 With the new system to make the bot making experience more focused on developing the bot, I have opted to trial setting up the command spec via the `config.json` file. This lets me automate the majority of the command setup process for the bot maker and keep code tidy. If you happen to forget the structure to define, you can find the definition of the json structure in `Main.hx` named `TCommands`.
 
+Complete `config.json` example:
 ```hx
 {
 	"project_name": "Hi Bot",
