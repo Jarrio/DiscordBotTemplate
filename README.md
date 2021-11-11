@@ -115,7 +115,7 @@ Complete `config.json` example:
 	]
 }
 ```
-This sets up 2 commands and should be fairly self explanatory with the enum definitions above.
+This sets up 3 commands and should be fairly self explanatory with the enum definitions above.
 - `name`: The parent object `name` is what comes directly after the slash. `/hi`, `/boop`, or `/test`
 - `description`: This will show a brief description in the command list within discord about the command
 - `params`: It has the same structure, except now `name` and `description` describe the parameter definition
@@ -126,7 +126,7 @@ universe.setSystems(Hi);
 ```
 To add more commands, simply append it to the universe. When adding the component to the file, directly import it and make sure to **not** use wildcard imports.
 ```hx
-universe.setSystems(Hi, Help); //Where Help is another command that extends CommandBase
+universe.setSystems(Hi, Help, Test); //Where Help is another command that extends CommandBase
 ```
 
 ### A Basic Command Example
