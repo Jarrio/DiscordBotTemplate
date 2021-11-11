@@ -1,3 +1,9 @@
+import discord_builder.SlashCommandNumberOption;
+import discord_builder.SlashCommandMentionableOption;
+import discord_builder.SlashCommandRoleOption;
+import discord_builder.SlashCommandChannelOption;
+import discord_builder.SlashCommandBooleanOption;
+import discord_builder.SlashCommandStringOption;
 import discord_builder.SharedSlashCommandOptions;
 import discord_builder.SlashCommandUserOption;
 import components.Command;
@@ -13,6 +19,7 @@ import ecs.Universe;
 import haxe.Timer;
 import systems.commands.Hi;
 import systems.commands.Boop;
+import systems.commands.Test;
 
 class Main {
 	public static var connected:Bool = false;
@@ -22,6 +29,7 @@ class Main {
 		universe = new Universe(1000);
 		universe.setSystems(Hi);
 		universe.setSystems(Boop);
+		universe.setSystems(Test);
 
 		var client = new Client({intents: [IntentFlags.GUILDS, IntentFlags.GUILD_MESSAGES]});
 
@@ -37,13 +45,39 @@ class Main {
 				name: interaction.commandName,
 				content: None
 			}
-			
-			switch(interaction.commandName) {
-				case 'hi':
-					command.content = Hi;
-				case 'boop':
-					command.content = Boop(interaction.options.getUser('user'));
-				default:
+
+			var enum_id = command.name.charAt(0).toUpperCase() + command.name.substring(1);
+			for (value in config.commands) {
+				if (value.name != command.name) {
+					continue;
+				}
+				if (value.params == null) {
+					command.content = Type.createEnum(CommandOptions, enum_id);
+					break;
+				} else {
+					var params = new Array<Dynamic>();
+					for (param in value.params) {
+						switch (param.type) {
+							case user: 
+								params.push(interaction.options.getUser(param.name));
+							case bool: 
+								params.push(interaction.options.getBoolean(param.name));
+							case mention: 
+								params.push(interaction.options.getMentionable(param.name));
+							case channel: 
+								params.push(interaction.options.getChannel(param.name));
+							case role: 
+								params.push(interaction.options.getRole(param.name));
+							case string: 
+								params.push(interaction.options.getString(param.name));
+							case number: 
+								params.push(interaction.options.getNumber(param.name));
+							default:
+						}
+					}
+					command.content = Type.createEnum(CommandOptions, enum_id, params);
+					break;
+				}
 			}
 			universe.setComponents(universe.createEntity(), command, interaction);
 		});
@@ -66,21 +100,63 @@ class Main {
 			throw ('Enter your discord auth token.');
 		}
 
-		var commands = new Array<AnySlashCommand>();
-		var hi = new SlashCommandBuilder().setName('hi').setDescription('Replies with hi!');
-		var boop = new SlashCommandBuilder().setName('boop').setDescription('Boop a user').addUserOption(
-			new SlashCommandUserOption().setName('user').setDescription('user to boop').setRequired(true)
-		);
-		
-		commands.push(hi);
-		commands.push(boop);
-		
+		var commands = parseCommands();
 		var rest = new REST({ version: '9' }).setToken(config.discord_token);
 		
 		rest.put(Routes.applicationGuildCommands(config.client_id, config.server_id), { body: commands })
 			.then((_) -> trace('Successfully registered application commands.'), (err) -> trace(err));
 
 		start();
+	}
+
+	static function parseCommands() {
+		var command_defs = config.commands;
+		if (command_defs == null || command_defs.length == 0) {
+			throw 'No commands configured in the config.json file.';
+		}
+
+		var commands = new Array<AnySlashCommand>();
+		for (command in command_defs) {
+			var main_command = new SlashCommandBuilder().setName(command.name).setDescription(command.description);
+			if (command.params != null) {
+				
+				for (param in command.params) {
+					switch (param.type) {
+						case user:
+							main_command.addUserOption(
+								new SlashCommandUserOption().setName(param.name).setDescription(param.description).setRequired(param.required)
+							);
+						case string:
+							main_command.addStringOption(
+								new SlashCommandStringOption().setName(param.name).setDescription(param.description).setRequired(param.required)
+							);
+						case bool:
+							main_command.addBooleanOption(
+								new SlashCommandBooleanOption().setName(param.name).setDescription(param.description).setRequired(param.required)
+							);
+						case channel:
+							main_command.addChannelOption(
+								new SlashCommandChannelOption().setName(param.name).setDescription(param.description).setRequired(param.required)
+							);
+						case role:
+							main_command.addRoleOption(
+								new SlashCommandRoleOption().setName(param.name).setDescription(param.description).setRequired(param.required)
+							);
+						case mention:
+							main_command.addMentionableOption(
+								new SlashCommandMentionableOption().setName(param.name).setDescription(param.description).setRequired(param.required)
+							);
+						case number:
+							main_command.addNumberOption(
+								new SlashCommandNumberOption().setName(param.name).setDescription(param.description).setRequired(param.required)
+							);
+						default:
+					}
+				}
+			}
+			commands.push(main_command);
+		}
+		return commands;
 	}
 
 	public static var name(get, never):String;
@@ -98,4 +174,23 @@ typedef TConfig = {
 	var client_id:String;
 	var server_id:String;
 	var discord_token:String;
+	var commands:Array<TCommands>;
+}
+
+typedef TCommands = {
+	var type:CommandType;
+	var name:String;
+	var description:String;
+	@:optional var params:Array<TCommands>;
+	@:optional var required:Bool;
+}
+
+enum abstract CommandType(String) {
+	var string;
+	var number;
+	var user;
+	var channel;
+	var role;
+	var bool;
+	var mention;
 }

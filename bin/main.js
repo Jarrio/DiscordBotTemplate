@@ -402,12 +402,13 @@ Main.start = function() {
 	Main.universe = new ecs_Universe(1000);
 	Main.universe.systems.add(new systems_commands_Hi(Main.universe));
 	Main.universe.systems.add(new systems_commands_Boop(Main.universe));
+	Main.universe.systems.add(new systems_commands_Test(Main.universe));
 	var client = new discord_$js_Client({ intents : ["GUILDS","GUILD_MESSAGES"]});
 	client.once("ready",function() {
 		var $l=arguments.length;
 		var _ = new Array($l>0?$l-0:0);
 		for(var $i=0;$i<$l;++$i){_[$i-0]=arguments[$i];}
-		haxe_Log.trace("Ready!",{ fileName : "src/Main.hx", lineNumber : 29, className : "Main", methodName : "start"});
+		haxe_Log.trace("Ready!",{ fileName : "src/Main.hx", lineNumber : 37, className : "Main", methodName : "start"});
 		Main.connected = true;
 	});
 	client.on("interactionCreate",function(interaction) {
@@ -415,14 +416,53 @@ Main.start = function() {
 			return;
 		}
 		var command = { name : interaction.commandName, content : components_CommandOptions.None};
-		switch(interaction.commandName) {
-		case "boop":
-			command.content = components_CommandOptions.Boop(interaction.options.getUser("user"));
-			break;
-		case "hi":
-			command.content = components_CommandOptions.Hi;
-			break;
-		default:
+		var enum_id = command.name.charAt(0).toUpperCase() + command.name.substring(1);
+		var _g = 0;
+		var _g1 = Main.config.commands;
+		while(_g < _g1.length) {
+			var value = _g1[_g];
+			++_g;
+			if(value.name != command.name) {
+				continue;
+			}
+			if(value.params == null) {
+				command.content = Type.createEnum(components_CommandOptions,enum_id);
+				break;
+			} else {
+				var params = [];
+				var _g2 = 0;
+				var _g3 = value.params;
+				while(_g2 < _g3.length) {
+					var param = _g3[_g2];
+					++_g2;
+					switch(param.type) {
+					case "bool":
+						params.push(interaction.options.getBoolean(param.name));
+						break;
+					case "channel":
+						params.push(interaction.options.getChannel(param.name));
+						break;
+					case "mention":
+						params.push(interaction.options.getMentionable(param.name));
+						break;
+					case "number":
+						params.push(interaction.options.getNumber(param.name));
+						break;
+					case "role":
+						params.push(interaction.options.getRole(param.name));
+						break;
+					case "string":
+						params.push(interaction.options.getString(param.name));
+						break;
+					case "user":
+						params.push(interaction.options.getUser(param.name));
+						break;
+					default:
+					}
+				}
+				command.content = Type.createEnum(components_CommandOptions,enum_id,params);
+				break;
+			}
 		}
 		var _ecsTmpEntity = Main.universe.entities.create();
 		Main.universe.components.set_components_Command(_ecsTmpEntity,1,command);
@@ -443,22 +483,65 @@ Main.main = function() {
 		Main.config = JSON.parse(js_node_Fs.readFileSync("./config.json",{ encoding : "utf8"}));
 	} catch( _g ) {
 		var _g1 = haxe_Exception.caught(_g);
-		haxe_Log.trace(_g1.get_message(),{ fileName : "src/Main.hx", lineNumber : 62, className : "Main", methodName : "main"});
+		haxe_Log.trace(_g1.get_message(),{ fileName : "src/Main.hx", lineNumber : 96, className : "Main", methodName : "main"});
 	}
 	if(Main.config == null || Main.config.discord_token == "TOKEN_HERE") {
 		throw haxe_Exception.thrown("Enter your discord auth token.");
 	}
-	var commands = [];
-	var hi = new discord_$builder_SlashCommandBuilder().setName("hi").setDescription("Replies with hi!");
-	var boop = new discord_$builder_SlashCommandBuilder().setName("boop").setDescription("Boop a user").addUserOption(new discord_$builder_SlashCommandUserOption().setName("user").setDescription("user to boop").setRequired(true));
-	commands.push(discord_$builder_AnySlashCommand.fromBase(hi));
-	commands.push(discord_$builder_AnySlashCommand.fromUser(boop));
+	var commands = Main.parseCommands();
 	new discordjs_rest_REST({ version : "9"}).setToken(Main.config.discord_token).put(Routes.applicationGuildCommands(Main.config.client_id,Main.config.server_id),{ body : commands}).then(function(_) {
-		haxe_Log.trace("Successfully registered application commands.",{ fileName : "src/Main.hx", lineNumber : 81, className : "Main", methodName : "main"});
+		haxe_Log.trace("Successfully registered application commands.",{ fileName : "src/Main.hx", lineNumber : 107, className : "Main", methodName : "main"});
 	},function(err) {
-		haxe_Log.trace(err,{ fileName : "src/Main.hx", lineNumber : 81, className : "Main", methodName : "main"});
+		haxe_Log.trace(err,{ fileName : "src/Main.hx", lineNumber : 107, className : "Main", methodName : "main"});
 	});
 	Main.start();
+};
+Main.parseCommands = function() {
+	var command_defs = Main.config.commands;
+	if(command_defs == null || command_defs.length == 0) {
+		throw haxe_Exception.thrown("No commands configured in the config.json file.");
+	}
+	var commands = [];
+	var _g = 0;
+	while(_g < command_defs.length) {
+		var command = command_defs[_g];
+		++_g;
+		var main_command = new discord_$builder_SlashCommandBuilder().setName(command.name).setDescription(command.description);
+		if(command.params != null) {
+			var _g1 = 0;
+			var _g2 = command.params;
+			while(_g1 < _g2.length) {
+				var param = _g2[_g1];
+				++_g1;
+				switch(param.type) {
+				case "bool":
+					main_command.addBooleanOption(new discord_$builder_SlashCommandBooleanOption().setName(param.name).setDescription(param.description).setRequired(param.required));
+					break;
+				case "channel":
+					main_command.addChannelOption(new discord_$builder_SlashCommandChannelOption().setName(param.name).setDescription(param.description).setRequired(param.required));
+					break;
+				case "mention":
+					main_command.addMentionableOption(new discord_$builder_SlashCommandMentionableOption().setName(param.name).setDescription(param.description).setRequired(param.required));
+					break;
+				case "number":
+					main_command.addNumberOption(new discord_$builder_SlashCommandNumberOption().setName(param.name).setDescription(param.description).setRequired(param.required));
+					break;
+				case "role":
+					main_command.addRoleOption(new discord_$builder_SlashCommandRoleOption().setName(param.name).setDescription(param.description).setRequired(param.required));
+					break;
+				case "string":
+					main_command.addStringOption(new discord_$builder_SlashCommandStringOption().setName(param.name).setDescription(param.description).setRequired(param.required));
+					break;
+				case "user":
+					main_command.addUserOption(new discord_$builder_SlashCommandUserOption().setName(param.name).setDescription(param.description).setRequired(param.required));
+					break;
+				default:
+				}
+			}
+		}
+		commands.push(discord_$builder_AnySlashCommand.fromBase(main_command));
+	}
+	return commands;
 };
 Main.get_name = function() {
 	if(Main.config == null || Main.config.project_name == null) {
@@ -1550,9 +1633,10 @@ bits_BitsData.get_length = function(this1) {
 var components_CommandOptions = $hxEnums["components.CommandOptions"] = { __ename__:"components.CommandOptions",__constructs__:null
 	,None: {_hx_name:"None",_hx_index:0,__enum__:"components.CommandOptions",toString:$estr}
 	,Hi: {_hx_name:"Hi",_hx_index:1,__enum__:"components.CommandOptions",toString:$estr}
-	,Boop: ($_=function(user) { return {_hx_index:2,user:user,__enum__:"components.CommandOptions",toString:$estr}; },$_._hx_name="Boop",$_.__params__ = ["user"],$_)
+	,Test: ($_=function(category,data) { return {_hx_index:2,category:category,data:data,__enum__:"components.CommandOptions",toString:$estr}; },$_._hx_name="Test",$_.__params__ = ["category","data"],$_)
+	,Boop: ($_=function(user) { return {_hx_index:3,user:user,__enum__:"components.CommandOptions",toString:$estr}; },$_._hx_name="Boop",$_.__params__ = ["user"],$_)
 };
-components_CommandOptions.__constructs__ = [components_CommandOptions.None,components_CommandOptions.Hi,components_CommandOptions.Boop];
+components_CommandOptions.__constructs__ = [components_CommandOptions.None,components_CommandOptions.Hi,components_CommandOptions.Test,components_CommandOptions.Boop];
 components_CommandOptions.__empty_constructs__ = [components_CommandOptions.None,components_CommandOptions.Hi];
 var discord_$builder_SharedNameAndDescription = require("@discordjs/builders").SharedNameAndDescription;
 var discord_$builder_SharedSlashCommandOptions = require("@discordjs/builders").SharedSlashCommandOptions;
@@ -9187,7 +9271,7 @@ systems_commands_Boop.__super__ = systems_CommandBase;
 systems_commands_Boop.prototype = $extend(systems_CommandBase.prototype,{
 	run: function(command,interaction) {
 		var _g = command.content;
-		if(_g._hx_index == 2) {
+		if(_g._hx_index == 3) {
 			interaction.reply("BOOP <@" + _g.user.id + ">");
 		}
 	}
@@ -9222,6 +9306,44 @@ systems_commands_Hi.prototype = $extend(systems_CommandBase.prototype,{
 		systems_CommandBase.prototype.onRemoved.call(this);
 	}
 	,__class__: systems_commands_Hi
+});
+var systems_commands_Test = function(_universe) {
+	systems_CommandBase.call(this,_universe);
+};
+$hxClasses["systems.commands.Test"] = systems_commands_Test;
+systems_commands_Test.__name__ = "systems.commands.Test";
+systems_commands_Test.__super__ = systems_CommandBase;
+systems_commands_Test.prototype = $extend(systems_CommandBase.prototype,{
+	run: function(command,interaction) {
+		var _g = command.content;
+		if(_g._hx_index == 2) {
+			var _g1 = _g.data;
+			switch(_g.category) {
+			case 0:
+				if(_g1 == null) {
+					interaction.reply("No data");
+				} else {
+					interaction.reply("Hey you sent stuff: " + _g1);
+				}
+				break;
+			case 1:
+				interaction.reply("VIP member");
+				break;
+			default:
+				interaction.reply("No category");
+			}
+		}
+	}
+	,get_name: function() {
+		return "test";
+	}
+	,onAdded: function() {
+		systems_CommandBase.prototype.onAdded.call(this);
+	}
+	,onRemoved: function() {
+		systems_CommandBase.prototype.onRemoved.call(this);
+	}
+	,__class__: systems_commands_Test
 });
 function $getIterator(o) { if( o instanceof Array ) return new haxe_iterators_ArrayIterator(o); else return o.iterator(); }
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $global.$haxeUID++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = m.bind(o); o.hx__closures__[m.__id__] = f; } return f; }

@@ -10,5 +10,6 @@ typedef Command = {
 enum CommandOptions {
 	None;
 	Hi;
+	Test(category:Float, data:String);
 	Boop(user:User);
 }
