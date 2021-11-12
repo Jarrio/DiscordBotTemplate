@@ -1,3 +1,4 @@
+import components.Command;
 import discord_builder.SlashCommandNumberOption;
 import discord_builder.SlashCommandMentionableOption;
 import discord_builder.SlashCommandRoleOption;
@@ -17,9 +18,11 @@ import haxe.Json;
 import sys.io.File;
 import ecs.Universe;
 import haxe.Timer;
+import discord_js.User;
 import systems.commands.Hi;
 import systems.commands.Boop;
 import systems.commands.Test;
+
 
 class Main {
 	public static var connected:Bool = false;
@@ -43,7 +46,7 @@ class Main {
 			
 			var command:Command = {
 				name: interaction.commandName,
-				content: None
+				content: null
 			}
 
 			var enum_id = command.name.charAt(0).toUpperCase() + command.name.substring(1);

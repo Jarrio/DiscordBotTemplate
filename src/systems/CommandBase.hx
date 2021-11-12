@@ -1,7 +1,7 @@
 package systems;
 
-import discord_builder.BaseCommandInteraction;
 import components.Command;
+import discord_builder.BaseCommandInteraction;
 import ecs.System;
 
 abstract class CommandBase extends System {
