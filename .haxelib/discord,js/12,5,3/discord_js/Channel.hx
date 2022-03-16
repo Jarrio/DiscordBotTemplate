@@ -6,7 +6,7 @@ package discord_js;
 	public final createdTimestamp : Float;
 	public var deleted : Bool;
 	public var id : String;
-	public var type : String;
+	public var type : ChannelType;
 	public function delete(?reason:String):js.lib.Promise<Channel>;
 	public function fetch(?force:Bool):js.lib.Promise<Channel>;
 	public function isText():Bool;

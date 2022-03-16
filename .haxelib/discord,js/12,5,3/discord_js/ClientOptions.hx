@@ -42,20 +42,22 @@ typedef ClientOptions = {
 	var intents:Array<IntentFlags>;
 };
 
-enum abstract IntentFlags(String) to String {
-	var GUILDS;
-	var GUILD_MEMBERS;
-	var GUILD_BANS;
-	var GUILD_EMOJIS_AND_STICKERS;
-	var GUILD_INTEGRATIONS;
-	var GUILD_WEBHOOKS;
-	var GUILD_INVITES;
-	var GUILD_VOICE_STATES;
-	var GUILD_PRESENCES;
-	var GUILD_MESSAGES;
-	var GUILD_MESSAGE_REACTIONS;
-	var GUILD_MESSAGE_TYPING;
-	var DIRECT_MESSAGES;
-	var DIRECT_MESSAGE_REACTIONS;
-	var DIRECT_MESSAGE_TYPING;
+
+enum abstract IntentFlags(Int) to Int {
+	var GUILDS = 1 << 0;
+	var GUILD_MEMBERS = 1 << 1;
+	var GUILD_BANS = 1 << 2;
+	var GUILD_EMOJIS_AND_STICKERS = 1 << 3;
+	var GUILD_INTEGRATIONS = 1 << 4;
+	var GUILD_WEBHOOKS = 1 << 5;
+	var GUILD_INVITES = 1 << 6;
+	var GUILD_VOICE_STATES = 1 << 7;
+	var GUILD_PRESENCES = 1 << 8;
+	var GUILD_MESSAGES = 1 << 9;
+	var GUILD_MESSAGE_REACTIONS = 1 << 10;
+	var GUILD_MESSAGE_TYPING = 1 << 11;
+	var DIRECT_MESSAGES = 1 << 12;
+	var DIRECT_MESSAGE_REACTIONS = 1 << 13;
+	var DIRECT_MESSAGE_TYPING = 1 << 14;
+	var GUILD_SCHEDULED_EVENTS = 1 << 16;
 }

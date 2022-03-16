@@ -1,6 +1,9 @@
 package discord_js;
 
+import discord_js.MessageReaction;
+
 typedef ReactionCollectorOptions = {
+	@:optional var filter:(reaction:MessageReaction, user:User) -> Bool;
 	@:optional
 	var max : Float;
 	@:optional

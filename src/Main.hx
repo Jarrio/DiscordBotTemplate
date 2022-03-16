@@ -29,11 +29,16 @@ class Main {
 	public static var config:TConfig;
 	public static var universe:Universe;
 	public static function start() {
-		universe = new Universe(1000);
-		universe.setSystems(Hi);
-		universe.setSystems(Boop);
-		universe.setSystems(Test);
-
+		universe = Universe.create({
+			entities: 1000,
+			phases: [
+				{
+					name: 'main',
+					systems: [Hi, Boop, Test]
+				}
+			]
+		});
+		
 		var client = new Client({intents: [IntentFlags.GUILDS, IntentFlags.GUILD_MESSAGES]});
 
 		client.once('ready', (_) -> {

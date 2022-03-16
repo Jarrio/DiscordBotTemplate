@@ -1,5 +1,18 @@
 package discord_js;
 
+import haxe.extern.EitherType;
+
+typedef EmbedAuthorData = {
+	var name:String;
+	@:optional var url:String;
+	@:optional var iconURL:String;
+}
+
+typedef EmbedFooterData = {
+	var text:String;
+	@:optional var iconURL:String;
+}
+
 @:jsRequire("discord.js", "MessageEmbed") extern class MessageEmbed {
 	function new(?data:ts.AnyOf2<MessageEmbed, MessageEmbedOptions>);
 	public var author : Null<MessageEmbedAuthor>;
@@ -22,14 +35,14 @@ package discord_js;
 	public function addField(name:Dynamic, value:Dynamic, ?inline_:Bool):MessageEmbed;
 	public function addFields(fields:haxe.extern.Rest<Any>):MessageEmbed;
 	public function attachFiles(file:Array<ts.AnyOf3<String, FileOptions, MessageAttachment>>):MessageEmbed;
-	public function setAuthor(name:Dynamic, ?iconURL:String, ?url:String):MessageEmbed;
+	public function setAuthor(options:EitherType<String, EmbedAuthorData>):MessageEmbed;
 	public function setColor(color:ColorResolvable):MessageEmbed;
 	public function setDescription(description:Dynamic):MessageEmbed;
-	public function setFooter(text:Dynamic, ?iconURL:String):MessageEmbed;
+	public function setFooter(data:EmbedFooterData):MessageEmbed;
 	public function setImage(url:String):MessageEmbed;
 	public function setThumbnail(url:String):MessageEmbed;
 	public function setTimestamp(?timestamp:ts.AnyOf2<Float, js.lib.Date>):MessageEmbed;
-	public function setTitle(title:Dynamic):MessageEmbed;
+	public function setTitle(title:String):MessageEmbed;
 	public function setURL(url:String):MessageEmbed;
 	public function spliceFields(index:Float, deleteCount:Float, fields:haxe.extern.Rest<Any>):MessageEmbed;
 	public function toJSON():Dynamic;

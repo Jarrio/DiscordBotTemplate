@@ -35,6 +35,7 @@ extern class SharedSlashCommandOptions extends SharedNameAndDescription {
 	
 }
 
+@:forward
 abstract AnySlashCommand(SlashCommandBuilder) {
 	private function new(builder:SlashCommandBuilder) {
 		this = builder;

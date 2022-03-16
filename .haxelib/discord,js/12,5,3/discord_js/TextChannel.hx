@@ -1,12 +1,20 @@
 package discord_js;
 
+import discord_js.FileOptions;
+import discord_js.MessageMentionOptions;
+import discord_js.MessageEmbed;
+import discord_js.Message;
+import discord_js.DMChannel;
+import haxe.extern.EitherType;
+
 @:jsRequire("discord.js", "TextChannel") extern class TextChannel {
 	function new(guild:Guild, ?data:Dynamic);
 	public var messages : MessageManager;
 	public var nsfw : Bool;
-	public var type : String;
+	public var type : ChannelType;
 	public var rateLimitPerUser : Float;
 	public var topic : Null<String>;
+	public var threads:ThreadManager;
 	public function createWebhook(name:String, ?options:{ @:optional var avatar : Dynamic; @:optional var reason : String; }):js.lib.Promise<Webhook>;
 	public function setNSFW(nsfw:Bool, ?reason:String):js.lib.Promise<TextChannel>;
 	public function setRateLimitPerUser(rateLimitPerUser:Float, ?reason:String):js.lib.Promise<TextChannel>;
@@ -2206,7 +2214,7 @@ package discord_js;
 	public final members : Collection<String, GuildMember>;
 	public var name : String;
 	public final parent : Null<CategoryChannel>;
-	public var parentID : Null<String>;
+	public var parentId : Null<String>;
 	public var permissionOverwrites : Collection<String, PermissionOverwrites>;
 	public final permissionsLocked : Null<Bool>;
 	public final position : Float;
@@ -3275,6 +3283,7 @@ package discord_js;
 	public function setTopic(topic:Null<String>, ?reason:String):js.lib.Promise<TextChannel>;
 	public function updateOverwrite(userOrRole:ts.AnyOf5<String, User, GuildMember, Message, Role>, options:PermissionOverwriteOption, ?reason:String):js.lib.Promise<TextChannel>;
 	public function isText():Bool;
+	public function isThread():Bool;
 	public final createdAt : js.lib.Date;
 	public final createdTimestamp : Float;
 	public var deleted : Bool;
@@ -3300,8 +3309,7 @@ package discord_js;
 	dynamic function awaitMessages(filter:CollectorFilter, ?options:AwaitMessagesOptions):js.lib.Promise<Collection<String, Message>>;
 	dynamic function bulkDelete(messages:ts.AnyOf3<Float, Collection<String, Message>, haxe.ds.ReadOnlyArray<MessageResolvable>>, ?filterOld:Bool):js.lib.Promise<Collection<String, Message>>;
 	dynamic function createMessageCollector(filter:CollectorFilter, ?options:MessageCollectorOptions):MessageCollector;
-	dynamic function startTyping(?count:Float):js.lib.Promise<Void>;
-	dynamic function stopTyping(?force:Bool):Void;
+	dynamic function sendTyping():js.lib.Promise<Void>;
 	var lastMessageID : Null<String>;
 	var lastMessage : Null<Message>;
 	@:overload(function(options:Dynamic):js.lib.Promise<Array<Message>> { })
@@ -3309,6 +3317,7 @@ package discord_js;
 	@:overload(function(content:Dynamic, options:ts.AnyOf4<MessageEmbed, MessageAttachment, Array<ts.AnyOf2<MessageEmbed, MessageAttachment>>, Dynamic>):js.lib.Promise<Message> { })
 	@:overload(function(content:Dynamic, options:Dynamic):js.lib.Promise<Array<Message>> { })
 	@:overload(function(content:Dynamic, options:MessageOptions):js.lib.Promise<ts.AnyOf2<Message, Array<Message>>> { })
-	dynamic function send(content:ts.AnyOf10<String, Float, { }, Bool, js.lib.Symbol, MessageEmbed, MessageAttachment, Array<ts.AnyOf2<MessageEmbed, MessageAttachment>>, haxe.ds.ReadOnlyArray<Dynamic>, Dynamic>):js.lib.Promise<Message>;
+	dynamic function send(options:MessageOptions):js.lib.Promise<Message>;
 	static var prototype : TextChannel;
 }
+

@@ -1,5 +1,11 @@
 package discord_builder;
 
+import discord_js.MessageAttachment;
+import discord_js.FileOptions;
+import discord_js.MessageMentionOptions;
+import discord_api_types.APIEmbed;
+import haxe.extern.EitherType;
+import discord_js.MessageEmbed;
 import discord_js.User;
 import discord_js.Message;
 import js.lib.Promise;
@@ -19,10 +25,15 @@ extern class BaseCommandInteraction extends Interaction {
 	
 	function deferReply(options:InteractionDeferReplyOptions):Promise<Message>;
 	function deleteReply():Promise<Void>;
-	function editReply(options:String):Promise<Message>;
+	@:overload(function(options:String):Promise<Message> {})
+	@:overload(function(options:InteractionReplyOptions):Promise<Message> {})
+	function editReply():Promise<Message>;
 	function fetchReply():Promise<Message>;
 	function followUp(options:String):Promise<Message>;
-	function reply(options:String):Promise<Message>;
+
+	@:overload(function(options:String):Promise<Message> {})
+	@:overload(function(options:InteractionReplyOptions):Promise<Message> {})
+	function reply():Promise<Message>;
 }
 
 typedef CommandInteractions = {
@@ -34,6 +45,16 @@ typedef CommandInteractions = {
 	function getNumber(id:String):Float;
 	function getString(id:String):String;
 	function getUser(id:String):User;
+}
+
+typedef InteractionReplyOptions = {
+	@:optional var tts:Bool;
+	@:optional var nonce:String;
+	@:optional var content:String;
+	@:optional var embeds:EitherType<Array<MessageEmbed>, Array<APIEmbed>>;
+	@:optional var allowedMentios:MessageMentionOptions;
+	@:optional var files:Array<FileOptions>;
+	@:optional var attachments:Array<MessageAttachment>;
 }
 
 typedef InteractionDeferReplyOptions = {

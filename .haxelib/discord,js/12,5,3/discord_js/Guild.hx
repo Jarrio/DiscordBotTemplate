@@ -56,6 +56,7 @@ package discord_js;
 	public var shardID : Float;
 	public var splash : Null<String>;
 	public final systemChannel : Null<TextChannel>;
+	public final commands : GuildApplicationCommandManager;
 	public var systemChannelFlags : {
 		var bitfield : Float;
 		dynamic function add(bits:haxe.extern.Rest<BitFieldResolvable<SystemChannelFlagsString>>):BitField<SystemChannelFlagsString>;

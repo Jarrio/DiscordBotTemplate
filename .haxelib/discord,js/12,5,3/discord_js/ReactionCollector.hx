@@ -1,7 +1,7 @@
 package discord_js;
 
 @:jsRequire("discord.js", "ReactionCollector") extern class ReactionCollector extends Collector<String, MessageReaction> {
-	function new(message:Message, filter:CollectorFilter, ?options:ReactionCollectorOptions);
+	function new(?options:ReactionCollectorOptions);
 	private function _handleChannelDeletion(channel:GuildChannel):Void;
 	private function _handleGuildDeletion(guild:Guild):Void;
 	private function _handleMessageDeletion(message:Message):Void;

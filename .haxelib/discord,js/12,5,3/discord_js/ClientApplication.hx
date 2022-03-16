@@ -2,6 +2,7 @@ package discord_js;
 
 @:jsRequire("discord.js", "ClientApplication") extern class ClientApplication extends Application {
 	function new();
+	public var commands:ApplicationCommandManager;
 	public var botPublic : Null<Bool>;
 	public var botRequireCodeGrant : Null<Bool>;
 	public var cover : Null<String>;

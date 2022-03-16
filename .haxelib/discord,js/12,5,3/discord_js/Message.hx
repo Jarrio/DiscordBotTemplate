@@ -1,5 +1,8 @@
 package discord_js;
 
+import js.lib.Promise;
+import discord_js.ThreadManager;
+
 @:jsRequire("discord.js", "Message") extern class Message extends Base {
 	function new(client:Client, data:Dynamic, channel:ts.AnyOf3<TextChannel, NewsChannel, DMChannel>);
 	private var _edits : Array<Message>;
@@ -11,7 +14,7 @@ package discord_js;
 	public var channel : ts.AnyOf3<TextChannel, NewsChannel, DMChannel>;
 	public final cleanContent : String;
 	public var content : String;
-	public final createdAt : js.lib.Date;
+	public final createdAt : Date;
 	public var createdTimestamp : Float;
 	public final deletable : Bool;
 	public var deleted : Bool;
@@ -34,6 +37,7 @@ package discord_js;
 	public var type : MessageType;
 	public final url : String;
 	public var webhookID : Null<String>;
+	public function startThread(?options:ThreadCreateOptions):Promise<ThreadChannel>;
 	public var flags : {
 		var bitfield : Float;
 		dynamic function add(bits:haxe.extern.Rest<BitFieldResolvable<MessageFlagsString>>):BitField<MessageFlagsString>;
@@ -506,7 +510,7 @@ package discord_js;
 	};
 	public var reference : Null<MessageReference>;
 	public function awaitReactions(filter:CollectorFilter, ?options:AwaitReactionsOptions):js.lib.Promise<Collection<String, MessageReaction>>;
-	public function createReactionCollector(filter:CollectorFilter, ?options:ReactionCollectorOptions):ReactionCollector;
+	public function createReactionCollector(?options:ReactionCollectorOptions):ReactionCollector;
 	public function delete(?options:{ @:optional var timeout : Float; @:optional var reason : String; }):js.lib.Promise<Message>;
 	@:overload(function(content:Dynamic, options:ts.AnyOf2<MessageEmbed, MessageEditOptions>):js.lib.Promise<Message> { })
 	public function edit(content:ts.AnyOf9<String, Float, { }, Bool, js.lib.Symbol, APIMessage, MessageEmbed, haxe.ds.ReadOnlyArray<Dynamic>, MessageEditOptions>):js.lib.Promise<Message>;

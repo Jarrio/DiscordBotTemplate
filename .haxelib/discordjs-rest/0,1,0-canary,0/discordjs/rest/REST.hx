@@ -1,7 +1,8 @@
 package discordjs.rest;
 
 @:jsRequire("@discordjs/rest", "REST") extern class REST extends node.Events {
-	function new(?options:{ /** The base api path, without version **/ @:optional var api : String; /** The cdn path **/ @:optional var cdn : String; /** The extra offset to add to rate limits in milliseconds **/ @:optional var offset : Float; /** The number of retries for errors with the 500 code, or errorsthat timeout **/ @:optional var retries : Float; /** The time to wait in milliseconds before a request is aborted **/ @:optional var timeout : Float; /** Extra information to add to the user agent **/ @:optional var userAgentAppendix : String; /** The version of the API to use **/ @:optional var version : String; });
+	function new(?options:{ /** The base api path, without version **/ @:optional var api : String; /** The cdn path **/ @:optional var cdn : String; /** The extra offset to add to rate limits in milliseconds **/ @:optional var offset : Float; /** The number of retries for errors with the 500 code, or errors
+that timeout **/ @:optional var retries : Float; /** The time to wait in milliseconds before a request is aborted **/ @:optional var timeout : Float; /** Extra information to add to the user agent **/ @:optional var userAgentAppendix : String; /** The version of the API to use **/ @:optional var version : String; });
 	@:overload(function<S>(event:{ /** Returns a string representation of a string.Returns a string representation of an object. **/ dynamic function toString():String; /** Returns the primitive value of the specified object.Returns the primitive value of the specified object. **/ dynamic function valueOf():ts.AnyOf2<String, js.lib.Symbol>; }, listener:(args:haxe.extern.Rest<Dynamic>) -> Void):REST { })
 	function on<K>(event:K, listener:(args:haxe.extern.Rest<Any>) -> Void):REST;
 	@:overload(function<S>(event:{ /** Returns a string representation of a string.Returns a string representation of an object. **/ dynamic function toString():String; /** Returns the primitive value of the specified object.Returns the primitive value of the specified object. **/ dynamic function valueOf():ts.AnyOf2<String, js.lib.Symbol>; }, listener:(args:haxe.extern.Rest<Dynamic>) -> Void):REST { })
@@ -29,7 +30,7 @@ package discordjs.rest;
 	/**
 		Runs a post request from the api
 	**/
-	function post(fullRoute:Dynamic, ?options:RequestData):js.lib.Promise<Any>;
+	function post(fullRoute:Dynamic, ?options:RequestData):js.lib.Promise<Dynamic>;
 	/**
 		Runs a put request from the api
 	**/

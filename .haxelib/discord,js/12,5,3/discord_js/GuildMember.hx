@@ -2237,4 +2237,6 @@ package discord_js;
 	@:overload(function(content:Dynamic, options:MessageOptions):js.lib.Promise<ts.AnyOf2<Message, Array<Message>>> { })
 	function send(content:ts.AnyOf10<String, Float, { }, Bool, js.lib.Symbol, MessageEmbed, MessageAttachment, Array<ts.AnyOf2<MessageEmbed, MessageAttachment>>, haxe.ds.ReadOnlyArray<Dynamic>, Dynamic>):js.lib.Promise<Message>;
 	static var prototype : GuildMember;
+
+	public function timeout(timeout:Null<Int>, reason:String):js.lib.Promise<GuildMember>;
 }

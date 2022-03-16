@@ -1,24 +1,20 @@
 package discord_js;
 
 typedef MessageOptions = {
-	@:optional
-	var tts : Bool;
-	@:optional
-	var nonce : String;
-	@:optional
-	var content : Dynamic;
-	@:optional
-	var embed : ts.AnyOf2<MessageEmbed, MessageEmbedOptions>;
-	@:optional
-	var disableMentions : String;
-	@:optional
-	var allowedMentions : MessageMentionOptions;
-	@:optional
-	var files : Array<Dynamic>;
-	@:optional
-	var code : ts.AnyOf2<String, Bool>;
-	@:optional
-	var split : ts.AnyOf2<Bool, SplitOptions>;
-	@:optional
-	var reply : UserResolvable;
-};
+	@:optional var tts:Bool;
+	@:optional var nonce:String;
+	@:optional var content:String;
+	@:optional var embeds:Array<MessageEmbed>;
+	@:optional var allowedMentions:Array<MessageMentionOptions>;
+	@:optional var files:Array<FileOptions>;
+	// Not added to the externs
+	// @:optional var components:Array<MessageActionR>;
+	@:optional var attachments:Array<MessageAttachment>;
+	@:optional var reply:ReplyOptions;
+}
+
+typedef ReplyOptions = {
+	var messageReference:Message;
+	@:optional var failIfNotExists:Bool;
+}
+
