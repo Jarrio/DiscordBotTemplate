@@ -1,6 +1,0 @@
-package discord_api_types;
-
-/**
-	https://discord.com/developers/docs/interactions/slash-commands#interaction-object-application-command-interaction-data-option-structure
-**/
-typedef APIApplicationCommandInteractionDataOption = ts.AnyOf10<ApplicationCommandInteractionDataOptionSubCommand, ApplicationCommandInteractionDataOptionSubCommandGroup, ApplicationCommandInteractionDataOptionString, ApplicationCommandInteractionDataOptionRole, ApplicationCommandInteractionDataOptionChannel, ApplicationCommandInteractionDataOptionUser, ApplicationCommandInteractionDataOptionMentionable, ApplicationCommandInteractionDataOptionInteger, ApplicationCommandInteractionDataOptionNumber, ApplicationCommandInteractionDataOptionBoolean>;
