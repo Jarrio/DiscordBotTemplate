@@ -1,3 +1,6 @@
 [submodule ".haxelib/discordjs/discordjs"]
 	path = .haxelib/discordjs/discordjs
 	url = https://github.com/Jarrio/discordjs/
+[submodule ".haxelib/aidan-ecs/ecs"]
+	path = .haxelib/aidan-ecs/ecs
+	url = https://github.com/Aidan63/ecs

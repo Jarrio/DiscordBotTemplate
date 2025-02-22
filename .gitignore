@@ -1,7 +1,6 @@
 /bin/node_modules/*
 /bin/config.json
 /haxebot
-/.haxelib/aidan-ecs
 /.haxelib/asynctools
 /.haxelib/bits
 /.haxelib/buddy

@@ -23,11 +23,13 @@ Example Project:
 - [`Haxebot`](https://github.com/Jarrio/Haxebot)
 
 ## Setup
-1) clone the repo
+1) Clone the repo
+```
+git --recursive clone https://github.com/Jarrio/DiscordBotTemplate
+```
 2) cd into the repo and then run the following:
 ```
 haxelib install hxnodejs
-haxelib git aidan-ecs https://github.com/Aidan63/ecs
 ```
 *Note: `hxnodejs` is not mandatory, it is just used to access sys stuff. For this example it is required but easily removed should you not need it*
 
