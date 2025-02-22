@@ -1,0 +1,36 @@
+[
+	{
+		"name": "hi",
+		"description": "Say hi to the bot"
+	},
+	{
+		"name": "boop",
+		"description": "boops a user",
+		"params": [
+			{
+				"name": "user",
+				"type": "user",
+				"description": "The user to boop",
+				"required": true
+			}
+		]
+	},
+	{
+		"name": "test",
+		"description": "tests user input",
+		"params": [
+			{
+				"name": "type",
+				"type": "number",
+				"description": "Category of test",
+				"required": true
+			},
+			{
+				"name": "topic",
+				"type": "string",
+				"description": "additional condition",
+				"required": false
+			}
+		]
+	}
+]

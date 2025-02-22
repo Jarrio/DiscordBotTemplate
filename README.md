@@ -27,17 +27,13 @@ Example Project:
 ```
 git --recursive clone https://github.com/Jarrio/DiscordBotTemplate
 ```
-2) cd into the repo and then run the following:
-```
-haxelib install hxnodejs
-```
 *Note: `hxnodejs` is not mandatory, it is just used to access sys stuff. For this example it is required but easily removed should you not need it*
 
-3) cd into the `bin` directory and then run:
+2) cd into the `bin` directory and then run:
 ```
 npm install
 ```
-4) Create a file in the `bin` directory called `config.json` and put the following in it:
+3) Create a file in the `bin` directory called `config.json` and put the following in it:
 ```json
 {
 	"project_name": "Hi Bot",
@@ -49,11 +45,11 @@ npm install
 ```
 *Note: You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file*
 
-5) Get your [`API token`](https://discord.com/developers/) and read here for further bot setup instructions
-6) Add the bot to a server
-7) Compile! 
-8) Run the bot using: `node main.js` or hit the debug button in vscode
-9) In your discord server send the command `/hi` or `/boop` and the bot should reply :)
+4) Get your [`API token`](https://discord.com/developers/) and read here for further bot setup instructions
+5) Add the bot to a server
+6) Compile! 
+7) Run the bot using: `node main.js` or hit the debug button in vscode
+8) In your discord server send the command `/hi` or `/boop` and the bot should reply :)
 
 ![gif](https://user-images.githubusercontent.com/748557/117300860-e74c3200-ae71-11eb-8eec-d5953319ec02.gif)
 
@@ -78,7 +74,7 @@ Complete `config.json` example:
 	"project_name": "Hi Bot",
 	"discord_token": "TOKEN_HERE",
 	"client_id": "CLIENT ID",
-	"server_id": "DEVELOPER SERVER ID"
+	"server_id": "DEVELOPER SERVER ID",
 	"commands": [
 		{
 			"name": "hi",

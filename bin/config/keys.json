@@ -1,0 +1,7 @@
+{
+	"discord": {
+		"token":"TOKEN_HERE",
+		"server_id":"DEVELOPER SERVER ID",
+		"client_id":"CLIENT ID"
+	}
+}
