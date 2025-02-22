@@ -2,3 +2,4 @@
 /bin/main.js
 /bin/main.js.map
 .ecs_invalidation
+/bin/config/*
