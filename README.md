@@ -2,12 +2,6 @@
 A basic and probably over engineered approach to creating a discord bot in haxe. This project depends on aidan's ecs but is easy to swap out should you want to.
 The structure of this project is simply focused on making a discord bot, really easy, where the logic is simple to follow. Make your command, add it to the Main file, everything is contained
 
-## >-------BREAKING CHANGE NOTICE--------<
-The new update to this library moves the framework completely to the new discord commands API. Take note of the changed code base and command instantiation.
-**DOCS ARE UPDATED TO INCLUDE NEW WORKFLOW**
-
-**THINGS MAY CHANGE**
-
 **Requires**:
 - [Haxe 4.2+](https://haxe.org/download)
 - [Aidan's ECS](https://github.com/Aidan63/ecs)
