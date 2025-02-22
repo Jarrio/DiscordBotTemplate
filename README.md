@@ -27,6 +27,7 @@ npm install
 
 ![gif](https://user-images.githubusercontent.com/748557/117300860-e74c3200-ae71-11eb-8eec-d5953319ec02.gif)
 
+*<sup>gif is old, it shows a text command but new setup actually works with slash commands</sup>*
 ## Usage
 Usage is simple, a system represents a command and most of the initial parsing work is done in `CommandBase` all you need to do is just implement your commands.
 
