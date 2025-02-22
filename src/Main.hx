@@ -39,7 +39,7 @@ class Main {
 			entities: 1000,
 			phases: [
 				{
-					name: 'main',
+					name: 'commands',
 					systems: [Hi, Boop, Test]
 				}
 			]
