@@ -1,3 +1,4 @@
 /bin/node_modules/*
 /bin/main.js
 /bin/main.js.map
+.ecs_invalidation
