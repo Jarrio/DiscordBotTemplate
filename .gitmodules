@@ -1,0 +1,3 @@
+[submodule ".haxelib/discordjs/discordjs"]
+	path = .haxelib/discordjs/discordjs
+	url = https://github.com/Jarrio/discordjs/
