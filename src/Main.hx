@@ -217,25 +217,18 @@ class Main {
 	public static var discord(get, never):TDiscordConfig;
 
 	static function get_discord() {
-		var config = null;
-		#if block
-		config = Main.keys.discord_test;
-		#else
-		config = Main.keys.discord_live;
-		#end
+		var config = Main.keys.discord;
 		return config;
 	}
 
 	public static var name(get, never):String;
 	private static function get_name() {
-		return 'Hyrobot';
+		return 'HiBot';
 	}
 }
 
 typedef TKeys = {
-	var discord_live:TDiscordConfig;
-	var discord_test:TDiscordConfig;
-	//var mysql:TMysqlConfig;
+	var discord:TDiscordConfig;
 }
 
 typedef TDiscordConfig = {
@@ -243,14 +236,6 @@ typedef TDiscordConfig = {
 	var secret:String;
 	var server_id:String;
 	var client_id:String;
-}
-
-typedef TConfig = {
-	var project_name:String;
-	var client_id:String;
-	var server_id:String;
-	var discord_token:String;
-	var commands:Array<TCommands>;
 }
 
 typedef TCommands = {
