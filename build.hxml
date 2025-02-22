@@ -1,6 +1,7 @@
 -cp src
 -D analyzer-optimize
 --library aidan-ecs
+--library discordjs
 --library hxnodejs
 --library node
 --dce no
