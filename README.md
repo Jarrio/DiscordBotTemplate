@@ -27,25 +27,12 @@ Example Project:
 ```
 git --recursive clone https://github.com/Jarrio/DiscordBotTemplate
 ```
-*Note: `hxnodejs` is not mandatory, it is just used to access sys stuff. For this example it is required but easily removed should you not need it*
-
 2) cd into the `bin` directory and then run:
 ```
 npm install
 ```
-3) Create a file in the `bin` directory called `config.json` and put the following in it:
-```json
-{
-	"project_name": "Hi Bot",
-	"discord_token": "TOKEN_HERE",
-	"client_id": "CLIENT ID",
-	"server_id": "DEVELOPER SERVER ID",
-	"commands": []
-}
-```
-*Note: You can use this file to store other config settings by modifying the typedef found in the `Main.hx` file*
-
-4) Get your [`API token`](https://discord.com/developers/) and read here for further bot setup instructions
+3) Get your [`API token`](https://discord.com/developers/) and read here for further bot setup instructions
+4) Go to `./bin/config/keys.json` and add your discord api keys in here
 5) Add the bot to a server
 6) Compile! 
 7) Run the bot using: `node main.js` or hit the debug button in vscode
@@ -66,66 +53,66 @@ enum CommandOptions {
 	Test(category:Float, data:String); //Takes 2 parameters from the user, a number and a string
 }
 ```
-With the new system to make the bot making experience more focused on developing the bot, I have opted to trial setting up the command spec via the `config.json` file. This lets me automate the majority of the command setup process for the bot maker and keep code tidy. If you happen to forget the structure to define, you can find the definition of the json structure in `Main.hx` named `TCommands`.
+After this, go to the `./bin/config/commands.json` and add your additional commands in here. The typedef structure can be found in
+`Main.hx` called `TCommands`
 
-Complete `config.json` example:
+An example of a `commands.json` file will look like: 
 ```hx
-{
-	"project_name": "Hi Bot",
-	"discord_token": "TOKEN_HERE",
-	"client_id": "CLIENT ID",
-	"server_id": "DEVELOPER SERVER ID",
-	"commands": [
-		{
-			"name": "hi",
-			"description": "Say hi to the bot"
-		},
-		{
-			"name": "boop",
-			"description": "boops a user",
-			"params": [
-				{
-					"name": "user",
-					"type": "user",
-					"description": "The user to boop",
-					"required": true
-				}
-			]
-		},
-		{
-			"name": "test",
-			"description": "tests user input",
-			"params": [
-				{
-					"name": "type",
-					"type": "number",
-					"description": "Category of test",
-					"required": true
-				},
-				{
-					"name": "topic",
-					"type": "string",
-					"description": "additional condition",
-					"required": false
-				}
-			]
-		}
-	]
-}
+[
+	{
+		"name": "hi",
+		"description": "Say hi to the bot"
+	},
+	{
+		"name": "boop",
+		"description": "boops a user",
+		"params": [
+			{
+				"name": "user",
+				"type": "user",
+				"description": "The user to boop",
+				"required": true
+			}
+		]
+	},
+	{
+		"name": "test",
+		"description": "tests user input",
+		"params": [
+			{
+				"name": "type",
+				"type": "number",
+				"description": "Category of test",
+				"required": true
+			},
+			{
+				"name": "topic",
+				"type": "string",
+				"description": "additional condition",
+				"required": false
+			}
+		]
+	}
+]
 ```
 This sets up 3 commands and should be fairly self explanatory with the enum definitions above.
 - `name`: The parent object `name` is what comes directly after the slash. `/hi`, `/boop`, or `/test`
 - `description`: This will show a brief description in the command list within discord about the command
 - `params`: It has the same structure, except now `name` and `description` describe the parameter definition
 
-Then head to the `Main.hx` and you should see a line that says: 
+Then head to the `Main.hx` and you should see the following:
 ```hx
-universe.setSystems(Hi);
+universe = Universe.create({
+	entities: 1000,
+	phases: [
+		{
+			name: 'commands',
+			systems: [Hi, Boop, Test]
+		}
+	]
+});
 ```
-To add more commands, simply append it to the universe. When adding the component to the file, directly import it and make sure to **not** use wildcard imports.
-```hx
-universe.setSystems(Hi, Help, Test); //All these commands extend CommandBase
-```
+systems is an array that takes in the module name of a command.
 
 ### A Basic Command Example
 ```hx
