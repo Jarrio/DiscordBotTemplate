@@ -12,7 +12,7 @@ Example Project:
 ## Setup
 1) Clone the repo
 ```
-git --recursive clone https://github.com/Jarrio/DiscordBotTemplate
+git clone --recursive https://github.com/Jarrio/DiscordBotTemplate
 ```
 2) cd into the `bin` directory and then run:
 ```
